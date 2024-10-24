@@ -200,12 +200,38 @@ $HAS_GPU || $HAS_DPU || {
 }
 
 REMOTE_UI="[screen-share]"
-VNC_BACKEND="command=/usr/bin/weston --backend=vnc-backend.so --shell=fullscreen-shell.so"
-RDP_BACKEND="command=/usr/bin/weston --backend=rdp-backend.so --shell=fullscreen-shell.so --no-clients-resize  --rdp-tls-key=/var/volatile/tls.key --rdp-tls-cert=/var/volatile/tls.crt --force-no-compression"
+VNC_BACKEND="command=/usr/bin/weston --no-config --backend=vnc-backend.so --shell=fullscreen-shell.so --vnc-tls-key=/var/volatile/tls.key --vnc-tls-cert=/var/volatile/tls.crt"
+RDP_BACKEND="command=/usr/bin/weston --no-config --backend=rdp-backend.so --shell=fullscreen-shell.so --rdp-tls-key=/var/volatile/tls.key --rdp-tls-cert=/var/volatile/tls.crt --no-clients-resize --force-no-compression"
 START_ON_STARTUP_CONFIG="start-on-startup=true"
+
+function generate_tls_certificate() {
+  mkdir -p /var/volatile
+  {
+
+    if [ ! -f /var/volatile/tls.crt ] || [ ! -f /var/volatile/tls.key ]; then
+      echo "Certificates for screen sharing not found in /var/volatile"
+      cd /var/volatile || exit
+      openssl genrsa -out tls.key 2048 &&
+        openssl req -new -key tls.key -out tls.csr \
+          -subj "/C=CH/ST=Luzern/L=Luzern/O=Toradex/CN=www.toradex.com" &&
+        openssl x509 -req -days 365 -signkey tls.key \
+          -in tls.csr -out tls.crt
+      chmod 0644 tls.key tls.crt
+      if [ -f "tls.crt" ]; then
+        echo "Certificate for screen sharing successfully generated"
+      else
+        echo "Error generating certificate for screen sharing"
+      fi
+      cd || exit
+    else
+      echo "Certificates for screen sharing found in /var/volatile. Skipping generation."
+    fi
+  } 2>&1 | tee -a /var/volatile/weston.log
+}
 
 if [ "$ENABLE_VNC" = "1" ]; then
   if [[ "$SOC_ID" =~ "MX8" ]]; then
+    generate_tls_certificate
     MSG=$REMOTE_UI"\n$VNC_BACKEND\n"$START_ON_STARTUP_CONFIG
     echo -e "$MSG" | tee -a $CONFIGURATION_FILE $CONFIGURATION_FILE_DEV 1>/dev/null
   else
@@ -217,30 +243,9 @@ if [ "$ENABLE_VNC" = "1" ]; then
 fi
 
 if [ "$ENABLE_RDP" = "1" ]; then
-  mkdir -p /var/volatile
-  {
-    MSG=$REMOTE_UI"\n$RDP_BACKEND\n"$START_ON_STARTUP_CONFIG
-    echo -e "$MSG" | tee -a $CONFIGURATION_FILE $CONFIGURATION_FILE_DEV 1>/dev/null
-
-    if [ ! -f /var/volatile/tls.crt ] || [ ! -f /var/volatile/tls.key ]; then
-      echo "Certificates for RDP not found in /var/volatile"
-      cd /var/volatile || exit
-      openssl genrsa -out tls.key 2048 &&
-        openssl req -new -key tls.key -out tls.csr \
-          -subj "/C=CH/ST=Luzern/L=Luzern/O=Toradex/CN=www.toradex.com" &&
-        openssl x509 -req -days 365 -signkey tls.key \
-          -in tls.csr -out tls.crt
-      chmod 0644 tls.key tls.crt
-      if [ -f "tls.crt" ]; then
-        echo "Certificate for RDP successfully generated"
-      else
-        echo "Error generating certificate for RDP"
-      fi
-      cd || exit
-    else
-      echo "Certificates for RDP found in /var/volatile. Skipping generation."
-    fi
-  } 2>&1 | tee -a /var/volatile/weston.log
+  generate_tls_certificate
+  MSG=$REMOTE_UI"\n$RDP_BACKEND\n"$START_ON_STARTUP_CONFIG
+  echo -e "$MSG" | tee -a $CONFIGURATION_FILE $CONFIGURATION_FILE_DEV 1>/dev/null
 fi
 
 if [ "$IGNORE_X_LOCKS" != "1" ]; then
