@@ -11,6 +11,8 @@ FROM $REGISTRY/$REGISTRY_NAMESPACE/$BASE_IMAGE_NAME:$IMAGE_TAG AS base
 RUN apt-get -y update && apt-get install -y --no-install-recommends \
     libdrm-common \
     libdrm2 \
+    libg2d-dpu \
+    libg2d-viv \
     libwayland-client0 \
     libwayland-cursor0 \
     libwayland-egl1 \
