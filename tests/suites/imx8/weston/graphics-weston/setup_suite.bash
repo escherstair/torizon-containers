@@ -9,8 +9,9 @@ setup_suite() {
     done
 
     docker container run -d --name=weston --net=host \
-    --cap-add CAP_SYS_TTY_CONFIG -v /dev:/dev -v /tmp:/tmp \
-    -v /run/udev/:/run/udev/ --device-cgroup-rule="c 4:* rmw" \
+    --cap-add CAP_SYS_TTY_CONFIG \
+    -v /dev:/dev -v /tmp:/tmp -v /run/udev/:/run/udev/ \
+    --device-cgroup-rule="c 4:* rmw" --device-cgroup-rule="c 253:* rmw" \
     --device-cgroup-rule="c 13:* rmw" --device-cgroup-rule="c 226:* rmw" \
     --device-cgroup-rule="c 10:223 rmw" --device-cgroup-rule="c 199:0 rmw" \
     torizon/weston-imx8:stable-rc \
