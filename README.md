@@ -97,11 +97,15 @@ For example, if I wish to build the base Docker for the iMX8 platform, from the
 
 ```
 tar -ch . | docker buildx build \
---build-arg DEBIAN_POINT_RELEASE="12.6" \
+--build-arg DEBIAN_POINT_RELEASE="12.6-slim" \
 --build-arg REGISTRY_PROXY="docker.io" \
 --build-arg TORADEX_FEED_URL="https://feeds.toradex.com/stable/imx8/" \
 -t base -
 ```
+
+This is only an example to show the syntax of the `docker buildx build` command.
+The real Debian base release can be seen looking to the `DEBIAN_POINT_RELEASE`
+variable in [.gitlab-ci.yml](https://github.com/torizon/torizon-containers/blob/stable/.gitlab-ci.yml#L13)
 
 ### Linting
 
