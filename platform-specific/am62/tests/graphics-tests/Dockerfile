@@ -29,6 +29,7 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
         gstreamer1.0-gtk3 \
         gstreamer1.0-qt5 \
         gstreamer1.0-pulseaudio \
+        xterm \
     && apt-get clean && apt-get autoremove && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /home/torizon

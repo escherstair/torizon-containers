@@ -15,6 +15,7 @@ RUN apt-get -y update \
         kmscube \
         libdrm-tests \
         imagemagick \
+        xterm \
     && apt-get clean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
