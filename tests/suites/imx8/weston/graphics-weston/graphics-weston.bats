@@ -58,11 +58,19 @@
 
 @test "GLMark2" {
     SCORE_PASS_THRESHOLD=220
-    
+
     docker container exec -it graphics-tests glmark2-es2-wayland -b shading:duration=5.0 -b build:use-vbo=false -b texture 2>&1 | tee /tmp/glmark2.log
 
     score=$(< /tmp/glmark2.log grep -i "score" | cut -d: -f2 | xargs)
 
     [[ "$score" -ge "$SCORE_PASS_THRESHOLD" ]]
     echo "GLMark2 Score: Actual - $score vs Expected - $SCORE_PASS_THRESHOLD"
+}
+
+@test "Xwayland" {
+    bats_require_minimum_version 1.5.0
+
+    run -124 timeout 5s docker container exec --user torizon graphics-tests xterm
+
+    echo "Ran for 5 seconds without crashing, terminated by timeout."
 }

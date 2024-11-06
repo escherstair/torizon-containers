@@ -62,3 +62,11 @@
 
     [[ "$score" -ge "$SCORE_PASS_THRESHOLD" ]]
 }
+
+@test "Xwayland" {
+    bats_require_minimum_version 1.5.0
+
+    run -124 timeout 5s docker container exec --user torizon graphics-tests xterm
+
+    echo "Ran for 5 seconds without crashing, terminated by timeout."
+}
