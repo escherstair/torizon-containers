@@ -144,9 +144,6 @@ echo "SoC has DPU: $HAS_DPU"
   $HAS_DPU && G2D_IMPLEMENTATION='dpu'
   echo "g2d implementation: $G2D_IMPLEMENTATION"
   test -e /etc/alternatives/libg2d.so.2 && update-alternatives --set libg2d.so.2 /usr/lib/aarch64-linux-gnu/libg2d-${G2D_IMPLEMENTATION}.so.2
-
-  # Disable xwayland support
-  sed -e "s/\(xwayland=true\)/#\1/" -i "$CONFIGURATION_FILE" "$CONFIGURATION_FILE_DEV"
 }
 
 #
