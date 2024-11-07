@@ -37,7 +37,7 @@ build-tests-container:
   script:
     - ./ci-scripts/test/fail-pipeline-if-tests-fail.sh report.xml
   variables:
-    TARGET_BUILD_TYPE: "nightly"
+    TARGET_BUILD_TYPE: "release"
   rules:
     - if: $CI_WORLD_TEST == "true"
       when: on_success
@@ -48,69 +48,80 @@ build-tests-container:
   needs:
     - build-tests-container
 
-e2e-test-imx8mp-nightly:
+e2e-test-colibri-imx7d-emmc-release:
   extends: .e2e-test-template
   variables:
-    SOC_UDT: "imx8mp"
-    RM_ON_TEARDOWN: "true"
+    SOC_UDT: "colibri-imx7d-emmc"
 
-e2e-test-imx8mm-nightly:
+e2e-test-verdin-am62dual-release:
   extends: .e2e-test-template
   variables:
-    SOC_UDT: "imx8mm"
-    RM_ON_TEARDOWN: "true"
+    SOC_UDT: "verdin-am62dual"
 
-e2e-test-am62-nightly:
+e2e-test-apalis-imx6q-release:
   extends: .e2e-test-template
   variables:
-    SOC_UDT: "am62"
-    RM_ON_TEARDOWN: "true"
+    SOC_UDT: "apalis-imx6q"
 
-e2e-test-imx8x-nightly:
+e2e-test-colibri-imx8dx-release:
   extends: .e2e-test-template
   variables:
-    SOC_UDT: "imx8x"
-    RM_ON_TEARDOWN: "true"
+    SOC_UDT: "colibri-imx8dx"
 
-e2e-test-imx6-nightly:
+e2e-test-verdin-imx8mmq-release:
   extends: .e2e-test-template
   variables:
-    SOC_UDT: "imx6"
-    RM_ON_TEARDOWN: "true"
+    SOC_UDT: "verdin-imx8mmq"
 
-# same as above, but targetting release (ie, latest quarterly)
-
-e2e-test-imx8mp-release:
+e2e-test-verdin-imx8mpq-release:
   extends: .e2e-test-template
   variables:
-    SOC_UDT: "imx8mp"
-    RM_ON_TEARDOWN: "true"
-    TARGET_BUILD_TYPE: "release"
+    SOC_UDT: "verdin-imx8mpq"
 
-e2e-test-imx8mm-release:
+e2e-test-colibri-imx7d-emmc-nightly:
   extends: .e2e-test-template
   variables:
-    SOC_UDT: "imx8mm"
-    RM_ON_TEARDOWN: "true"
-    TARGET_BUILD_TYPE: "release"
+    TARGET_BUILD_TYPE: "nightly"
+    SOC_UDT: "colibri-imx7d-emmc"
 
-e2e-test-am62-release:
+e2e-test-colibri-imx8dx-nightly:
   extends: .e2e-test-template
   variables:
-    SOC_UDT: "am62"
-    RM_ON_TEARDOWN: "true"
-    TARGET_BUILD_TYPE: "release"
+    TARGET_BUILD_TYPE: "nightly"
+    SOC_UDT: "colibri-imx8dx"
 
-e2e-test-imx8x-release:
+e2e-test-verdin-am62dual-nightly:
   extends: .e2e-test-template
   variables:
-    SOC_UDT: "imx8x"
-    RM_ON_TEARDOWN: "true"
-    TARGET_BUILD_TYPE: "release"
+    TARGET_BUILD_TYPE: "nightly"
+    SOC_UDT: "verdin-am62dual"
 
-e2e-test-imx6-release:
+e2e-test-apalis-imx6q-nightly:
   extends: .e2e-test-template
   variables:
-    SOC_UDT: "imx6"
-    RM_ON_TEARDOWN: "true"
-    TARGET_BUILD_TYPE: "release"
+    TARGET_BUILD_TYPE: "nightly"
+    SOC_UDT: "apalis-imx6q"
+
+e2e-test-apalis-imx8qm-nightly:
+  extends: .e2e-test-template
+  variables:
+    TARGET_BUILD_TYPE: "nightly"
+    SOC_UDT: "apalis-imx8qm"
+
+e2e-test-colibri-imx8dx-nightly:
+  extends: .e2e-test-template
+  variables:
+    TARGET_BUILD_TYPE: "nightly"
+    SOC_UDT: "colibri-imx8dx"
+
+e2e-test-verdin-imx8mmq-nightly:
+  extends: .e2e-test-template
+  variables:
+    TARGET_BUILD_TYPE: "nightly"
+    SOC_UDT: "verdin-imx8mmq"
+
+e2e-test-verdin-imx8mpq-nightly:
+  extends: .e2e-test-template
+  variables:
+    TARGET_BUILD_TYPE: "nightly"
+    SOC_UDT: "verdin-imx8mpq"
