@@ -2,6 +2,8 @@
   retry: 2
   extends: .docker-build
   rules:
+    - if: $CI_COMMIT_TAG
+      when: never
     - if: $CI_WORLD_TEST == "true"
       when: never
     - if: $CI_WORLD_REBUILD == "true"
@@ -12,8 +14,6 @@
       changes: &upstream-changes
         - .gitlab-ci.yml
         - ./**/*
-    - if: $CI_COMMIT_TAG
-      when: never
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_PIPELINE_SOURCE == "push"
       changes: *upstream-changes
   variables:
