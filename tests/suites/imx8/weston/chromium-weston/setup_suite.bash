@@ -7,7 +7,7 @@ setup_suite() {
     -v /run/udev/:/run/udev/ --device-cgroup-rule="c 4:* rmw" \
     --device-cgroup-rule="c 13:* rmw" --device-cgroup-rule="c 226:* rmw" \
     --device-cgroup-rule="c 10:223 rmw" --device-cgroup-rule="c 199:0 rmw" \
-    torizon/weston-imx8:stable-rc \
+    artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/weston-imx8:stable-rc \
     --developer --tty=/dev/tty7 -- --debug
 
     sleep 10
@@ -20,7 +20,7 @@ setup_suite() {
     -v /tmp:/tmp -v /var/run/dbus:/var/run/dbus \
     -v /dev/galcore:/dev/galcore --device-cgroup-rule='c 199:* rmw' \
     --security-opt seccomp=unconfined --shm-size 256mb \
-    torizon/chromium-imx8:stable-rc \
+    artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/chromium-imx8:stable-rc \
     --virtual-keyboard http://info.cern.ch/hypertext/WWW/TheProject.html
     
     # chromium can take a while to fully load

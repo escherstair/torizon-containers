@@ -1,10 +1,10 @@
-weston_image="torizon/weston-am62:stable-rc"
+weston_image="artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/weston-am62:stable-rc"
 weston_container="weston"
 
-chromium_image="torizon/chromium-am62:stable-rc"
+chromium_image="artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/chromium-am62:stable-rc"
 chromium_container="chromium"
 
-chromium_tests_image="torizon/chromium-tests-am62:stable-rc"
+chromium_tests_image="artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/chromium-tests-am62:stable-rc"
 
 setup_suite() {
 

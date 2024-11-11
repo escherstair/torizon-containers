@@ -1,4 +1,4 @@
-image="torizon/graphics-tests-am62:stable-rc"
+image="artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/graphics-tests-am62:stable-rc"
 container="graphics-tests"
 
 setup_suite() {

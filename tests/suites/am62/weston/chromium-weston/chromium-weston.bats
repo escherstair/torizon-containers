@@ -9,9 +9,9 @@ function take_screenshot(){
 function copy_screenshot(){
     local container_name="$1"
 
-    docker cp "${container_name}:/home/torizon/." .
-    docker exec "$container_name" sh -c "rm /home/torizon/wayland-screenshot*.png"
-    mv wayland-screenshot*.png /home/torizon/screenshot.png
+    docker cp "${container_name}:/home/artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/." .
+    docker exec "$container_name" sh -c "rm /home/artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/wayland-screenshot*.png"
+    mv wayland-screenshot*.png /home/artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/screenshot.png
 }
 
 image_compare() {
@@ -56,7 +56,7 @@ image_compare() {
 @test "Chromium Screenshot Comparison" {
     take_screenshot "weston"
     copy_screenshot "weston"
-    image_compare /suites/am62/weston/chromium-weston/chromium-reference-screenshot.png /home/torizon/screenshot.png 100
+    image_compare /suites/am62/weston/chromium-weston/chromium-reference-screenshot.png /home/artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/screenshot.png 100
 }
 
 @test "Chromium webglreport test" {
@@ -64,5 +64,5 @@ image_compare() {
     -v /tmp:/tmp -v /var/run/dbus:/var/run/dbus \
     -v /dev/dri:/dev/dri --device-cgroup-rule='c 226:* rmw' \
     --security-opt seccomp=unconfined --shm-size 256mb \
-    torizon/chromium-tests-am62:stable-rc
+    artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/chromium-tests-am62:stable-rc
 }

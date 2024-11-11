@@ -1,7 +1,7 @@
-graphics_tests_image="torizon/graphics-tests-am62:stable-rc"
+graphics_tests_image="artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/graphics-tests-am62:stable-rc"
 graphics_tests_container="graphics-tests"
 
-weston_image="torizon/weston-am62:stable-rc"
+weston_image="artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/weston-am62:stable-rc"
 weston_container="weston"
 
 setup_suite() {

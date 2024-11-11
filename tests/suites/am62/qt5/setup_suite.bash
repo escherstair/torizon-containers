@@ -1,4 +1,4 @@
-image="torizon/qt5-wayland-examples-am62:stable-rc"
+image="artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/qt5-wayland-examples-am62:stable-rc"
 container="qt5-wayland-examples"
 
 setup_suite() {

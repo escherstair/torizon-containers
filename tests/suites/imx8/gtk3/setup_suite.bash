@@ -7,7 +7,7 @@ setup_suite() {
     -v /run/udev/:/run/udev/ --device-cgroup-rule="c 4:* rmw" \
     --device-cgroup-rule="c 13:* rmw" --device-cgroup-rule="c 226:* rmw" \
     --device-cgroup-rule="c 199:* rmw" --device-cgroup-rule="c 10:223 rmw" \
-    torizon/weston-imx8:stable-rc \
+    artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/weston-imx8:stable-rc \
     --developer --tty=/dev/tty7 -- --debug
 
     sleep 10
@@ -21,7 +21,7 @@ setup_suite() {
     --device-cgroup-rule="c 13:* rmw" \
     --device-cgroup-rule="c 199:* rmw" \
     --device-cgroup-rule="c 226:* rmw" \
-    torizon/gtk3-tests-imx8:stable-rc bash
+    artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/gtk3-tests-imx8:stable-rc bash
 }
 
 teardown_suite() {

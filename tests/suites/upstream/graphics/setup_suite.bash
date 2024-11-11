@@ -6,7 +6,7 @@ setup_suite() {
 
     docker container run -e ACCEPT_FSL_EULA=1 -d -it --privileged \
     --name=graphics-tests -v /dev:/dev -v /tmp:/tmp \
-    torizon/graphics-tests:stable-rc
+    artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/graphics-tests:stable-rc
 }
 
 teardown_suite() {

@@ -9,9 +9,9 @@ function take_screenshot(){
 function copy_screenshot(){
     local container_name="$1"
 
-    docker cp "${container_name}:/home/torizon/." .
-    docker exec "$container_name" sh -c "rm /home/torizon/wayland-screenshot*.png"
-    mv wayland-screenshot*.png /home/torizon/screenshot.png
+    docker cp "${container_name}:/home/artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/." .
+    docker exec "$container_name" sh -c "rm /home/artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/wayland-screenshot*.png"
+    mv wayland-screenshot*.png /home/artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/screenshot.png
 }
 
 image_compare() {
@@ -54,5 +54,5 @@ image_compare() {
 @test "Chromium" {
     take_screenshot "weston"
     copy_screenshot "weston"
-    image_compare /tests/imx/weston/chromium/chromium-reference-screenshot.png /home/torizon/screenshot.png 100
+    image_compare /tests/imx/weston/chromium/chromium-reference-screenshot.png /home/artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/screenshot.png 100
 }
