@@ -8,12 +8,6 @@ chromium_tests_image="torizon/chromium-tests-am62:stable-rc"
 
 setup_suite() {
 
-    for dir in /sys/class/drm/card*-HDMI-*; do
-        if [[ -d $dir ]]; then
-            echo "on" > "$dir/status"
-        fi
-    done
-
     docker container stop ${weston_container} || true
     docker container rm ${weston_container} || true
 
@@ -72,9 +66,4 @@ teardown_suite() {
         echo "Skipping Docker image removal due to RM_ON_TEARDOWN environment variable."
     fi
 
-    for dir in /sys/class/drm/card*-HDMI-*; do
-        if [[ -d $dir ]]; then
-            echo "off" > "$dir/status"
-        fi
-    done
 }

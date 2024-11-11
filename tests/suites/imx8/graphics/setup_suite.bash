@@ -1,12 +1,6 @@
 setup_suite() {
     echo "kmscube test might fail, if display is not connected. Force the connector state to \"on\" and run the test anyway."
     
-    for dir in /sys/class/drm/card*-HDMI-*; do
-        if [[ -d $dir ]]; then
-            echo "on" > "$dir/status"
-        fi
-    done
-
     docker container stop graphics-tests || true
     docker container rm graphics-tests || true
 
@@ -22,9 +16,4 @@ teardown_suite() {
 
     echo "kmscube test might fail, if display is not connected. Force the connector state to \"on\" and run the test anyway."
     
-    for dir in /sys/class/drm/card*-HDMI-*; do
-        if [[ -d $dir ]]; then
-            echo "off" > "$dir/status"
-         fi
-    done
 }

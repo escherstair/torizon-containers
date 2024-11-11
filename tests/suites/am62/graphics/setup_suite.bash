@@ -3,12 +3,6 @@ container="graphics-tests"
 
 setup_suite() {
 
-    for dir in /sys/class/drm/card*-HDMI-*; do
-        if [[ -d $dir ]]; then
-            echo "on" > "$dir/status"
-        fi
-    done
-
     docker container stop ${container} || true
     docker container rm ${container} || true
 
@@ -32,9 +26,4 @@ teardown_suite() {
 
     docker container rm ${container}
 
-    for dir in /sys/class/drm/card*-HDMI-*; do
-        if [[ -d $dir ]]; then
-            echo "off" > "$dir/status"
-        fi
-    done
 }
