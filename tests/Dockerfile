@@ -7,7 +7,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         ca-certificates \
         curl \
-        bats \
+        git \
         bc \
         procps \
         imagemagick \
@@ -16,6 +16,11 @@ RUN apt-get update \
     && apt-get clean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
+
+RUN git clone https://github.com/bats-core/bats-core.git /tmp/bats-core \
+    && /tmp/bats-core/install.sh /usr/local \
+    && rm -rf /tmp/bats-core
+
 
 RUN case ${TARGETPLATFORM} in \
          "linux/amd64")  REGCTL_ARCH=amd64  ;; \
