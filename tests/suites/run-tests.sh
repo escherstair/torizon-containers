@@ -2,9 +2,9 @@
 
 BASE_DIR=/suites
 
-if [ "$SOC_UDT" == "*am62*" ]; then
+if [[ "$SOC_UDT" == *am62* ]]; then
   TARGET_DIR="am62"
-elif [[ "$SOC_UDT" == "*imx8*" ]]; then
+elif [[ "$SOC_UDT" == *imx8* ]]; then
   TARGET_DIR="imx8"
 else
   TARGET_DIR="upstream"
