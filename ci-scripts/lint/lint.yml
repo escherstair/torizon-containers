@@ -1,6 +1,6 @@
 .shellcheck:
   image: koalaman/shellcheck-alpine:latest
-  script: find . -type f -iname "*.sh" | xargs -r shellcheck --severity=${SHELLCHECK_SEVERITY}
+  script: find . -type f \( -iname "*.sh" -o -iname "*.bash" -o -iname "*.bats" \) | xargs -r shellcheck --severity=${SHELLCHECK_SEVERITY}
   rules:
     - when: always
 
