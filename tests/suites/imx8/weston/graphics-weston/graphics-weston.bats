@@ -59,12 +59,13 @@
 @test "GLMark2" {
     SCORE_PASS_THRESHOLD=220
 
-    docker container exec -it graphics-tests glmark2-es2-wayland -b shading:duration=5.0 -b build:use-vbo=false -b texture 2>&1 | tee /tmp/glmark2.log
+    run docker container exec graphics-tests glmark2-es2-wayland -b shading:duration=5.0 -b build:use-vbo=false -b texture
 
-    score=$(< /tmp/glmark2.log grep -i "score" | cut -d: -f2 | xargs)
+    score=$(echo "$output" | grep -i "score" | cut -d: -f2 | xargs)
+
+    echo "GLMark2 Score: Actual - $score vs Expected - $SCORE_PASS_THRESHOLD"
 
     [[ "$score" -ge "$SCORE_PASS_THRESHOLD" ]]
-    echo "GLMark2 Score: Actual - $score vs Expected - $SCORE_PASS_THRESHOLD"
 }
 
 @test "Xwayland" {
