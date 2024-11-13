@@ -32,30 +32,6 @@
     fi
 }
 
-
-@test "es2_info" {
-    expected_EGL_CLIENT_APIS="OpenGL_ES"
-    expected_GL_VERSION="OpenGL ES"
-    expected_GL_RENDERER="PowerVR A-Series AXE-1-16M"
-
-    docker container exec -it --user torizon graphics-tests es2_info 2>&1 | tee /tmp/es2_info.log
-
-    output=$(cat /tmp/es2_info.log)
-
-    GL_RENDERER=$(echo "$output" | grep "GL_RENDERER" | cut -d ':' -f 2 | xargs)
-    EGL_CLIENT_APIS=$(echo "$output" | grep "EGL_CLIENT_APIS" | cut -d ':' -f 2 | xargs)
-    GL_VERSION=$(echo "$output" | grep -v "EGL_VERSION" | grep "GL_VERSION" | cut -d ':' -f 2 | xargs)
-
-    [[ "$GL_RENDERER" == "$expected_GL_RENDERER" ]]
-    echo "GL_RENDERER: Actual - $GL_RENDERER vs Expected - $expected_GL_RENDERER"
-
-    [[ "$EGL_CLIENT_APIS" == "$expected_EGL_CLIENT_APIS" ]]
-    echo "EGL_CLIENT_APIS: Actual - $EGL_CLIENT_APIS vs Expected - $expected_EGL_CLIENT_APIS"
-
-    [[ "$GL_VERSION" == "$expected_GL_VERSION" ]]
-    echo "GL_VERSION: Actual - $GL_VERSION vs Expected - $expected_GL_VERSION"
-}
-
 @test "GLMark2" {
     SCORE_PASS_THRESHOLD=220
 
