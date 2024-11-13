@@ -36,7 +36,7 @@ RUN case ${TARGETARCH} in \
     tar xz -C /usr/local/bin --strip=1 docker/docker && \
     chmod +x /usr/local/bin/docker
 
-COPY tests/suites /suites
+COPY tests/cases /cases
 COPY tests/helpers/remove-docker-image-if-outdated.sh /usr/bin
 
-WORKDIR /suites
+WORKDIR /cases
