@@ -14,11 +14,6 @@
 }
 
 @test "Test kmscube" {
-    if grep disconnected /sys/class/drm/*/status; then
-        echo "kmscube test might fail, if display is not connected. Force the connector state to \"on\" and the test anyway."
-        echo on > /sys/class/drm/*/status
-    fi
-
     docker container exec -it graphics-tests kmscube -c 2048 -D /dev/dri/card0 | tee /tmp/kmscube.txt
 
     KMS_TEST=1

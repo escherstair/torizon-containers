@@ -1,6 +1,4 @@
 setup_suite() {
-    echo "kmscube test might fail, if display is not connected. Force the connector state to \"on\" and run the test anyway."
-    
     docker container stop graphics-tests || true
     docker container rm graphics-tests || true
 
@@ -13,7 +11,4 @@ teardown_suite() {
     docker container stop graphics-tests
     docker image rm -f $(docker container inspect -f '{{.Image}}' graphics-tests)
     docker container rm graphics-tests
-
-    echo "kmscube test might fail, if display is not connected. Force the connector state to \"on\" and run the test anyway."
-    
 }
