@@ -69,6 +69,16 @@ docker run --rm -it --name=qt6 \
         bash
 ```
 
+## qt6-wayland-examples
+
+```
+docker run --rm -it --name=qt6 \
+        -v /tmp:/tmp \
+        -v /dev/dri:/dev/dri --device-cgroup-rule='c 226:* rmw' \
+        torizon/qt6-wayland-examples:rc \
+        bash
+```
+
 And then run one of the examples availaible in `/usr/lib/aarch64-linux-gnu/qt6/examples/`
 
 ```

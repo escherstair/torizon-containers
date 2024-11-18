@@ -26,6 +26,10 @@ qt6-wayland:
   major: 4
   minor: 1
   patch: 0
+qt6-wayland-examples:
+  major: 4
+  minor: 0
+  patch: 0
 weston-touch-calibrator:
   major: 4
   minor: 1

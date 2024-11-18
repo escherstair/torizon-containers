@@ -104,6 +104,16 @@ build-qt6-wayland:
     DOCKERFILE_BUILD_CONTEXT_FOLDER: "${SUPPORT_FILES_FOLDER}/qt-wayland/"
   needs: [build-wayland-base]
 
+build-qt6-wayland-examples:
+  extends: .build-upstream-template
+  variables:
+    BUILD_FOR_ARM_V7: "true"
+    BASE_IMAGE_NAME: qt6-wayland
+    IMAGE_NAME: qt6-wayland-examples
+    DOCKERFILE_FOLDER: "${QT6_WAYLAND_EXAMPLES_FOLDER}/"
+    DOCKERFILE_BUILD_CONTEXT_FOLDER: "${SUPPORT_FILES_FOLDER}/qt-wayland/"
+  needs: [build-qt6-wayland]
+
 build-chromium:
   extends: .build-upstream-template
   variables:
