@@ -95,11 +95,11 @@ docker buildx build --progress=plain --sbom=true --push ${BUILD_PLATFORMS} \
   --build-arg REGISTRY="${PULL_REGISTRY}" \
   --build-arg REGISTRY_NAMESPACE="${REGISTRY_NAMESPACE}" \
   --build-arg TORADEX_SNAPSHOT="${TORADEX_SNAPSHOT}" \
-  --label container.name="${IMAGE_NAME}" \
-  --label container.version="${MAJOR}"."${MINOR}"."${PATCH}" \
-  --label git.branch="${CI_COMMIT_BRANCH}" \
-  --label git.hash="${CI_COMMIT_SHA}" \
-  --label pipeline.id="${CI_PIPELINE_ID}" \
+  --label torizon.image.name="${IMAGE_NAME}" \
+  --label torizon.git.branch="${CI_COMMIT_BRANCH}" \
+  --label torizon.git.hash="${CI_COMMIT_SHA}" \
+  --label torizon.git.pipeline="${CI_PIPELINE_ID}" \
+  --label torizon.debian.snapshot="${TORADEX_SNAPSHOT}" \
   -f "${DOCKERFILE_FOLDER}Dockerfile" \
   -t "${PUSH_REGISTRY}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}" \
   "${DOCKERFILE_BUILD_CONTEXT_FOLDER}"
