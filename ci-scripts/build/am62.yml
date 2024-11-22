@@ -164,8 +164,8 @@ build-dotnet-8-wayland-am62:
     - . ./ci-scripts/build/export-dotnet-build-args.sh ./ci-scripts/container-versions/dotnet-8.yml dotnet8-wayland-am62
     - export DEBIAN_POINT_RELEASE="${DEBIAN_POINT_RELEASE}"
   variables:
-    BASE_IMAGE_NAME: dotnet8-am62
-    BASE_IMAGE_NAME_WAYLAND: wayland-base-am62
+    BUILD_BASE_IMAGE_NAME: dotnet8-am62
+    BASE_IMAGE_NAME: wayland-base-am62
     IMAGE_NAME: dotnet8-wayland-am62
     DOCKERFILE_FOLDER: "${DOTNET_FOLDER}/${DOTNET_WAYLAND_BASE_FOLDER}/"
     DOCKERFILE_BUILD_CONTEXT_FOLDER: "${DOTNET_FOLDER}/${DOTNET_WAYLAND_BASE_FOLDER}/"

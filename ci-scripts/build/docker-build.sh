@@ -83,7 +83,7 @@ docker buildx build --progress=plain --sbom=true ${BUILD_PLATFORMS} \
   --build-arg TORADEX_FEED_URL="${TORADEX_FEED_URL}" \
   --build-arg BASE_IMAGE_NAME="${BASE_IMAGE_NAME}" \
   --build-arg BASE_IMAGE_NAME_DEBUG="${BASE_IMAGE_NAME_DEBUG}" \
-  --build-arg BASE_IMAGE_NAME_WAYLAND="${BASE_IMAGE_NAME_WAYLAND}" \
+  --build-arg BUILD_BASE_IMAGE_NAME="${BUILD_BASE_IMAGE_NAME}" \
   --build-arg CROSS_COMPILER="${CROSS_COMPILER}" \
   --build-arg CROSS_TARGET_ARCH="${CROSS_TARGET_ARCH}" \
   --build-arg DEBIAN_POINT_RELEASE="${DEBIAN_POINT_RELEASE}" \

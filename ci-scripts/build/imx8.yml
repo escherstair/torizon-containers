@@ -169,8 +169,8 @@ build-dotnet-8-wayland-imx8:
     - export DEBIAN_POINT_RELEASE="${DEBIAN_POINT_RELEASE}"
   variables:
     BUILD_FOR_ARM_V8: "true"
-    BASE_IMAGE_NAME: dotnet8-imx8
-    BASE_IMAGE_NAME_WAYLAND: wayland-base-imx8
+    BUILD_BASE_IMAGE_NAME: dotnet8-imx8
+    BASE_IMAGE_NAME: wayland-base-imx8
     IMAGE_NAME: dotnet8-wayland-imx8
     DOCKERFILE_FOLDER: "${DOTNET_FOLDER}/${DOTNET_WAYLAND_BASE_FOLDER}/"
     DOCKERFILE_BUILD_CONTEXT_FOLDER: "${DOTNET_FOLDER}/${DOTNET_WAYLAND_BASE_FOLDER}/"
