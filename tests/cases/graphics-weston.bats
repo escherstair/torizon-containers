@@ -90,7 +90,7 @@ teardown_file() {
 @test "Xwayland" {
   bats_require_minimum_version 1.5.0
 
-  run -124 timeout 5s docker container exec --user torizon graphics-tests xterm -fa DejaVuSansMono
+  run -124 docker container exec --user torizon graphics-tests timeout 5s xterm -fa DejaVuSansMono
 
   echo "Ran for 5 seconds without crashing, terminated by timeout."
 }
