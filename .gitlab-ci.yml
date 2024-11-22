@@ -24,6 +24,7 @@ variables:
   AM62_FOLDER: "am62"
   UPSTREAM_FOLDER: "upstream"
   TESTS_FOLDER: "tests"
+  TESTS_CONTAINERS_FOLDER: "containers"
   CHROMIUM_TESTS_FOLDER: "chromium-tests"
   CROSS_TOOLCHAIN_FOLDER: "cross-toolchain"
   DOTNET_FOLDER: "dotnet"
