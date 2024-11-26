@@ -46,6 +46,7 @@ teardown_file() {
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream
 @test "Is Weston running?" {
+  run weston_container_logs
   run is_weston_running
 }
 

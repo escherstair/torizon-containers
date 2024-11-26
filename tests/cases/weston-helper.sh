@@ -42,6 +42,10 @@ setup_weston() {
   sleep 30
 }
 
+weston_container_logs() {
+  docker logs weston
+}
+
 is_weston_running() {
   docker container ls | grep -q weston
   status=$?
