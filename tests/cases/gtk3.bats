@@ -53,16 +53,8 @@ teardown_file() {
 }
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream
-@test "Check if weston container is running" {
-  docker container ls | grep -q weston
-  status=$?
-
-  if [[ "$status" -ne 0 ]]; then
-    echo "Weston container is not running"
-    exit 1
-  else
-    echo "Weston container is running"
-  fi
+@test "Is Weston running?" {
+  run is_weston_running
 }
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream

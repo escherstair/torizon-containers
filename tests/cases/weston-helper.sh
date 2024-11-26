@@ -42,6 +42,18 @@ setup_weston() {
   sleep 30
 }
 
+is_weston_running() {
+  docker container ls | grep -q weston
+  status=$?
+
+  if [[ "$status" -ne 0 ]]; then
+    echo "Weston container is not running"
+    exit 1
+  else
+    echo "Weston container is running"
+  fi
+}
+
 teardown_weston() {
   docker container stop weston || true
 
