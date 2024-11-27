@@ -19,6 +19,11 @@ RUN git clone https://github.com/bats-core/bats-core.git /tmp/bats-core && \
     /tmp/bats-core/install.sh /usr/local && \
     rm -rf /tmp/bats-core
 
+RUN mkdir /usr/lib/bats && \
+    cd /usr/lib/bats && \
+    git clone https://github.com/bats-core/bats-assert.git && \
+    git clone https://github.com/bats-core/bats-support.git
+
 RUN case ${TARGETPLATFORM} in \
          "linux/amd64")  REGCTL_ARCH=amd64  ;; \
          "linux/arm64")  REGCTL_ARCH=arm64  ;; \
