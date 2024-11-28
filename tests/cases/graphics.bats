@@ -1,5 +1,7 @@
 #!/usr/bin/env bats
 
+load ./kernel-helper.sh
+
 DOCKER_RUN_AM62='docker container run -d -it \
             --name=graphics-tests -v /dev:/dev --device-cgroup-rule="c 4:* rmw"  \
             --device-cgroup-rule="c 13:* rmw" --device-cgroup-rule="c 199:* rmw" \
@@ -53,12 +55,16 @@ teardown_file() {
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream
 @test "Test kmscube" {
+  run -0 clean_kernel_logs
+
   docker container exec -it graphics-tests kmscube -c 2048 -D /dev/dri/card0 | tee /tmp/kmscube.txt
 
   FPSs=$(grep 'fps)' /tmp/kmscube.txt | cut -d '(' -f 2 | cut -d ' ' -f 1)
   for FPS in $FPSs; do
     [ 1 -eq "$(echo "$FPS >= 55" | bc)" ] && [ 1 -eq "$(echo "$FPS < 100" | bc)" ]
   done
+
+  run -0 gpu_kernel_logs
 }
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream

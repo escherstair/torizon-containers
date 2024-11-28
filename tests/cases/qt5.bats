@@ -1,5 +1,7 @@
 #!/usr/bin/env bats
 
+load ./kernel-helper.sh
+
 DOCKER_RUN_AM62='docker container run -d -it --net=host --name=qt5-wayland-examples \
              --cap-add CAP_SYS_TTY_CONFIG -v /dev:/dev -v /tmp:/tmp -v /run/udev/:/run/udev/ \
              --device-cgroup-rule="c 4:* rmw"  --device-cgroup-rule="c 13:* rmw" \
@@ -63,12 +65,16 @@ teardown_file() {
 @test "EGL kmscube" {
   bats_require_minimum_version 1.5.0
 
+  run -0 clean_kernel_logs
+
   docker container exec qt5-wayland-examples bash -c \
     "printf '#!/bin/bash\nkms-setup.sh $LIB_PATH_PREFIX/qt5/examples/opengl/cube/cube\n' > /tmp/run_kmscube.sh && chmod +x /tmp/run_kmscube.sh"
 
   docker container exec qt5-wayland-examples cat /tmp/run_kmscube.sh
 
   run timeout 10s docker container exec -e QT_QPA_PLATFORM=eglfs qt5-wayland-examples /tmp/run_kmscube.sh
+
+  run -0 gpu_kernel_logs
 }
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream
@@ -76,5 +82,10 @@ teardown_file() {
   bats_require_minimum_version 1.5.0
 
   RUN_LINUXFB_SHAPEDCLOCK_EXAMPLE="$LIB_PATH_PREFIX/qt5/examples/widgets/widgets/shapedclock/shapedclock"
+
+  run -0 clean_kernel_logs
+
   run -124 docker container exec -e QT_QPA_PLATFORM=linuxfb qt5-wayland-examples timeout 10s "$RUN_LINUXFB_SHAPEDCLOCK_EXAMPLE"
+
+  run -0 gpu_kernel_logs
 }

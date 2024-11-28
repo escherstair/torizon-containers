@@ -4,6 +4,7 @@ bats_load_library bats-support
 bats_load_library bats-assert
 
 load ./weston-helper.sh
+load ./kernel-helper.sh
 
 setup_file() {
   setup_weston
@@ -23,8 +24,10 @@ teardown_file() {
 @test "Weston Simple EGL" {
   bats_require_minimum_version 1.5.0
 
+  run -0 clean_kernel_logs
   run -124 docker container exec weston timeout 10s weston-simple-egl
   echo "Ran for 10 seconds without crashing, terminated by timeout."
+  run -0 gpu_kernel_logs
 }
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream
@@ -39,6 +42,8 @@ teardown_file() {
 @test "GLMark2" {
   SCORE_PASS_THRESHOLD=220
 
+  run -0 clean_kernel_logs
+
   run docker container exec graphics-tests glmark2-es2-wayland -b shading:duration=5.0 -b build:use-vbo=false -b texture
 
   score=$(echo "$output" | grep -i "score" | cut -d: -f2 | xargs)
@@ -46,6 +51,8 @@ teardown_file() {
   echo "GLMark2 Score: Actual - $score vs Expected - $SCORE_PASS_THRESHOLD"
 
   [[ "$score" -ge "$SCORE_PASS_THRESHOLD" ]]
+
+  run -0 gpu_kernel_logs
 }
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream
