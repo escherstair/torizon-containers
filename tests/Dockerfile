@@ -13,7 +13,8 @@ RUN apk update && apk upgrade && \
         imagemagick \
         xmlstarlet \
         jq \
-        bash
+        bash \
+        dmesg
 
 RUN git clone https://github.com/bats-core/bats-core.git /tmp/bats-core && \
     /tmp/bats-core/install.sh /usr/local && \
