@@ -78,7 +78,7 @@ if [[ "${CI_COMMIT_REF_PROTECTED}" == "true" ]]; then
 fi
 
 # shellcheck disable=SC2086
-docker buildx build --progress=plain --sbom=true --push ${BUILD_PLATFORMS} \
+docker buildx build --progress=plain --sbom=true ${BUILD_PLATFORMS} \
   --build-arg ACCEPT_FSL_EULA="${ACCEPT_FSL_EULA}" \
   --build-arg TORADEX_FEED_URL="${TORADEX_FEED_URL}" \
   --build-arg BASE_IMAGE_NAME="${BASE_IMAGE_NAME}" \
@@ -101,5 +101,5 @@ docker buildx build --progress=plain --sbom=true --push ${BUILD_PLATFORMS} \
   --label torizon.git.pipeline="${CI_PIPELINE_ID}" \
   --label torizon.debian.snapshot="${TORADEX_SNAPSHOT}" \
   -f "${DOCKERFILE_FOLDER}Dockerfile" \
-  -t "${PUSH_REGISTRY}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}" \
+  --output type=registry,name="${PUSH_REGISTRY}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}",compression=zstd \
   "${DOCKERFILE_BUILD_CONTEXT_FOLDER}"
