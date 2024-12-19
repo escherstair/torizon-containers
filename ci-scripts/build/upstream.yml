@@ -293,6 +293,7 @@ build-dotnet-8-gtk3:
 build-gtk3-tests:
   extends: .build-upstream-template
   variables:
+    BUILD_FOR_ARM_V7: "true"
     BASE_IMAGE_NAME: wayland-gtk3
     IMAGE_NAME: gtk3-tests
     DOCKERFILE_FOLDER: "${TESTS_FOLDER}/${TESTS_CONTAINERS_FOLDER}/${GTK_3_TESTS_FOLDER}/"
