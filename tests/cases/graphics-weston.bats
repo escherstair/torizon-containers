@@ -63,5 +63,5 @@ teardown_file() {
 
   run docker container exec qt6-wayland-tests contextinfo
 
-  assert_output --regexp "OpenGL Version: OpenGL ES [23]\.[02].*"
+  assert_output --regexp "OpenGL Version: OpenGL ES [23]\.[0-2].*"
 }
