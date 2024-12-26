@@ -1,0 +1,14 @@
+# the name of this file is what it is because it will make the tests
+# defined here execute before any other. Yes, it is perhaps a bit odd
+# but the alternative is a much more complicated orchestration of
+# tests and merge of test results inside the run-tests.sh script.
+
+# tests here are meant to be generally about system information that
+# will be flushed in subsequent test runs (dmesg is the first example).
+
+# bats test_tags=platform:imx8, platform:am62, platform:upstream
+@test "Print unflushed GPU kernel logs" {
+  # subsequent tests will clean the kernel logs, so don't bother here
+  run -0 gpu_kernel_logs
+}
+
