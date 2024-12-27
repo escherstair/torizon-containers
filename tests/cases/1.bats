@@ -1,3 +1,7 @@
+#!/usr/bin/env bats
+
+load ./kernel-helper.sh
+
 # the name of this file is what it is because it will make the tests
 # defined here execute before any other. Yes, it is perhaps a bit odd
 # but the alternative is a much more complicated orchestration of
