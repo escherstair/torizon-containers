@@ -47,7 +47,11 @@ Components: main non-free\n\
 Signed-By: /usr/share/keyrings/toradex-debian-repo.gpg" > /etc/apt/sources.list.d/toradex.sources \
     && echo "Package: *\nPin: origin feeds.toradex.com\nPin-Priority: 900" > /etc/apt/preferences.d/toradex-feeds
 
-RUN apt-get -y update && apt-get install -y --no-install-recommends \
+RUN apt-get -y update && apt-get upgrade -y
+
+RUN apt-get -y update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
     fastfetch \
     && apt-get clean && apt-get autoremove && rm -rf /var/lib/apt/lists/*
 
