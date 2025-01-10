@@ -1,0 +1,6 @@
+test-start-chromium:
+  image: debian:$DEBIAN_POINT_RELEASE
+  script:
+    - cd support-files/chromium
+    - ./test-start-chromium.sh
+  needs: []

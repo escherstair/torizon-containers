@@ -1,17 +1,19 @@
-#!/bin/sh
+#!/bin/bash
 
-# default URL
-URL="www.toradex.com"
+DEFAULT_URL="www.toradex.com"
+DRY_RUN=false
 
-chromium_base_params="--allow-insecure-localhost \
-                      --disable-notifications \
-                      --disable-gpu \
-                      --disable-software-rasterizer \
-                      --check-for-update-interval=315360000 \
-                      --disable-seccomp-filter-sandbox \
-                      --no-sandbox \
-                      --enable-features=UseOzonePlatform \
-                      --ozone-platform=wayland"
+chromium_base_params="
+    --allow-insecure-localhost
+    --disable-notifications
+    --disable-gpu
+    --disable-software-rasterizer
+    --check-for-update-interval=315360000
+    --disable-seccomp-filter-sandbox
+    --no-sandbox
+    --enable-features=UseOzonePlatform
+    --ozone-platform=wayland
+"
 
 chromium_mode_params="--kiosk "
 
@@ -21,28 +23,29 @@ for arg in "$@"; do
   case $arg in
     --window-mode)
       chromium_mode_params="--start-maximized --app="
-      shift
       ;;
     --browser-mode)
       chromium_mode_params="--start-maximized "
-      shift
       ;;
     --virtual-keyboard)
-      # Load the virtual keyboard
-      chromium_extended_params="$chromium_extended_params --load-extension=/chrome-extensions/chrome-virtual-keyboard-master"
-      shift
+      chromium_extended_params="${chromium_extended_params} --load-extension=/chrome-extensions/chrome-virtual-keyboard-master"
+      ;;
+    --dry-run)
+      DRY_RUN=true
       ;;
     --*)
-      chromium_extended_params="$chromium_extended_params $1"
-      shift
+      chromium_extended_params="${chromium_extended_params} $arg"
       ;;
     *)
-      URL=$1
-      shift
+      DEFAULT_URL=$arg
       ;;
   esac
 done
 
-# Don't double quote, otherwise expanded arguments end up with `'`
-# shellcheck disable=SC2086
-chromium $chromium_base_params $chromium_extended_params $chromium_mode_params$URL
+COMMAND=$(echo "chromium $chromium_base_params$chromium_extended_params $chromium_mode_params$DEFAULT_URL" | xargs)
+
+if [ "$DRY_RUN" = true ]; then
+  echo "$COMMAND"
+else
+  eval "$COMMAND"
+fi
