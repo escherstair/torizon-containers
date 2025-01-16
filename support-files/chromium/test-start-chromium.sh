@@ -8,7 +8,7 @@ run_test() {
   local expected_output="$3"
 
   echo "Running test: $test_name"
-  actual_output=$(sh ./start-chromium.sh $args)
+  actual_output=$(bash ./start-chromium.sh $args)
 
   if [ "$actual_output" = "$expected_output" ]; then
     echo "PASS"
