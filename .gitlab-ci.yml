@@ -71,10 +71,17 @@ services:
   - echo "GitLab CI/CD environment variables:"
   - env
 
+.docker-configure:
+  script:
+    - apk add bash
+    - ./ci-scripts/configure/docker-buildx-configure.sh
+
 .docker-build:
+  extends: .docker-configure
   variables:
     ADD_TORADEX_REPOSITORY: 1
   script:
+    - !reference [.docker-configure, script]
     - *do_print_environment_variables
     - apk add curl bash
     - ./ci-scripts/build/docker-build.sh

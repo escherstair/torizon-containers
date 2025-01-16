@@ -5,11 +5,6 @@ set -x
 # Copyright (c) 2019-2024 Toradex AG
 # SPDX-License-Identifier: MIT
 
-docker login -u "$DOCKERHUB_USER" -p "$DOCKERHUB_TOKEN"
-docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-
-docker info
-
 if [[ "${IMAGE_NAME}" == *am62 ]]; then
   TORADEX_SNAPSHOT=$(curl https://feeds.toradex.com/stable/am62/snapshots/latest-snapshot)
   export TORADEX_SNAPSHOT
@@ -20,11 +15,6 @@ else
   TORADEX_SNAPSHOT=$(curl https://feeds.toradex.com/stable/upstream/snapshots/latest-snapshot)
   export TORADEX_SNAPSHOT
 fi
-
-docker buildx create --name multiarch-builder --driver docker-container --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --use
-docker buildx inspect --bootstrap
-
-docker run --privileged --rm "${TORADEX_INTERNAL_DOCKERHUB_CACHE}/tonistiigi/binfmt" --install arm64,arm
 
 declare -A BUILD_TARGETS=(
   ["BUILD_FOR_ARM_V7"]="linux/arm/v7"

@@ -4,6 +4,7 @@ stages:
   - report
 
 build-tests-container:
+  extends: .docker-configure
   stage: build
   image: docker:dind
   rules:
