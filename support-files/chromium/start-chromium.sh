@@ -4,15 +4,15 @@ DEFAULT_URL="www.toradex.com"
 DRY_RUN=false
 
 chromium_base_params="
-    --allow-insecure-localhost
-    --disable-notifications
-    --disable-gpu
-    --disable-software-rasterizer
-    --check-for-update-interval=315360000
-    --disable-seccomp-filter-sandbox
-    --no-sandbox
-    --enable-features=UseOzonePlatform
-    --ozone-platform=wayland
+  --allow-insecure-localhost
+  --disable-notifications
+  --use-gl=egl
+  --in-process-gpu
+  --check-for-update-interval=315360000
+  --disable-seccomp-filter-sandbox
+  --no-sandbox
+  --enable-features=UseOzonePlatform
+  --ozone-platform=wayland
 "
 
 chromium_mode_params="--kiosk "

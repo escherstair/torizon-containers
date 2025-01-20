@@ -134,6 +134,15 @@ build-chromium-imx8:
     DOCKERFILE_BUILD_CONTEXT_FOLDER: "${SUPPORT_FILES_FOLDER}/${CHROMIUM_FOLDER}/"
   needs: [build-wayland-base-imx8]
 
+build-chromium-tests-imx8:
+  extends: .build-imx8-template
+  variables:
+    BASE_IMAGE_NAME: chromium-imx8
+    IMAGE_NAME: chromium-tests-imx8
+    DOCKERFILE_FOLDER: "${PLATFORM_SPECIFIC_FOLDER}/${IMX8_FOLDER}/${TESTS_FOLDER}/${CHROMIUM_TESTS_FOLDER}/"
+    DOCKERFILE_BUILD_CONTEXT_FOLDER: "${PLATFORM_SPECIFIC_FOLDER}/${IMX8_FOLDER}/${TESTS_FOLDER}/${CHROMIUM_TESTS_FOLDER}/"
+  needs: [build-chromium-imx8]
+
 build-cog-imx8:
   extends: .build-imx8-template
   variables:
