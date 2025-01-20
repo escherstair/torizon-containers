@@ -8,8 +8,6 @@ ARG REGISTRY_NAMESPACE
 
 FROM $REGISTRY/$REGISTRY_NAMESPACE/$BASE_IMAGE_NAME:$IMAGE_TAG as build
 
-# Need to include imx-gpu-viv-wayland-dev to get NXP downstream headers for
-# graphics libraries
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         build-essential \
