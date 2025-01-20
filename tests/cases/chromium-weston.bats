@@ -1,7 +1,6 @@
 #!/usr/bin/env bats
 
 load ./weston-helper.sh
-load ./image-comparison.sh
 
 DOCKER_RUN_AM62='docker container run -d --name=chromium \
     -v /tmp:/tmp -v /var/run/dbus:/var/run/dbus \
@@ -66,11 +65,3 @@ teardown_file() {
   [[ "$status" -eq 0 ]]
   echo "Chromium container is running"
 }
-
-# FIXME: this test has to be refactored/re-enabled when Chromium is worked on.
-# bats test_tags=platform:imx8, platform:am62, platform:upstream
-# @test "Chromium" {
-#     take_screenshot "weston"
-#     copy_screenshot "weston"
-#     image_compare ... 100
-# }
