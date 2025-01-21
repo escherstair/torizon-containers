@@ -16,3 +16,18 @@ load ./kernel-helper.sh
   run -0 gpu_kernel_logs
 }
 
+# bats test_tags=platform:imx8, platform:am62, platform:upstream
+@test "Check if any display is connected" {
+  for interface in /sys/class/drm/*/status; do
+    if [ -f "$interface" ]; then
+      status=$(cat "$interface")
+      if [ "$status" = "connected" ]; then
+        echo "Display interface connected: $interface"
+        return 0
+      fi
+    fi
+  done
+
+  echo "No display interface is connected."
+  return 1
+}
