@@ -8,7 +8,7 @@ build-tests-container:
   stage: build
   image: docker:dind
   rules:
-    - if: $CI_WORLD_TEST == "true"
+    - if: $CI_WORLD_TEST == "true" || $CI_PIPELINE_SOURCE == "merge_request_event"
       when: always
       changes:
         - /ci-scripts/test/*
@@ -31,7 +31,7 @@ build-tests-container:
       --file tests/Dockerfile
       --push
       --platform linux/arm/v7,linux/arm64/v8,linux/amd64
-      -t ${CI_REGISTRY}/${CI_PROJECT_PATH}/torizon-containers-tests .
+      -t ${CI_REGISTRY}/${CI_PROJECT_PATH}/torizon-containers-tests:${CI_COMMIT_REF_SLUG}-${CI_PIPELINE_ID} .
 
 .e2e-test-template:
   stage: test
@@ -39,7 +39,7 @@ build-tests-container:
   before_script:
     - /usr/local/bin/entrypoint.sh "docker run -e SOC_UDT=$SOC_UDT -e RM_ON_TEARDOWN=$RM_ON_TEARDOWN --privileged --pid host
       -v /var/run/docker.sock:/var/run/docker.sock -v /home/torizon:/home/torizon -v /sys:/sys
-      ${CI_REGISTRY}/${CI_PROJECT_PATH}/torizon-containers-tests /cases/run-tests.sh"
+      ${CI_REGISTRY}/${CI_PROJECT_PATH}/torizon-containers-tests:${CI_COMMIT_REF_SLUG}-${CI_PIPELINE_ID} /cases/run-tests.sh"
       --copy-artifact /home/torizon/report.xml report.xml --delegation-config ./ci-scripts/test/delegation_config.toml
       --before "docker system prune --all --force"
   allow_failure: true
@@ -118,6 +118,14 @@ e2e-test-apalis-imx8qm-nightly:
   variables:
     TARGET_BUILD_TYPE: "nightly"
     SOC_UDT: "apalis-imx8qm"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: on_success
+      changes:
+        - /ci-scripts/test/*
+        - tests/**/*
+    - if: $CI_WORLD_TEST == "true"
+      when: always
 
 e2e-test-colibri-imx8dx-nightly:
   extends: .e2e-test-template
