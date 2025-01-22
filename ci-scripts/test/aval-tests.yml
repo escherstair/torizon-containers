@@ -132,12 +132,6 @@ e2e-test-apalis-imx8qm-nightly:
     - if: $CI_WORLD_TEST == "true"
       when: always
 
-e2e-test-colibri-imx8dx-nightly:
-  extends: .e2e-test-template
-  variables:
-    TARGET_BUILD_TYPE: "nightly"
-    SOC_UDT: "colibri-imx8dx"
-
 e2e-test-verdin-imx8mmq-nightly:
   extends: .e2e-test-template
   variables:
