@@ -5,7 +5,10 @@ load ./weston-helper.sh
 # note the `-td`: it allocates a pty so it keeps the container running
 DOCKER_RUN='docker container run -dt --entrypoint /usr/bin/bash --name=chromium \
     -v /tmp:/tmp -v /var/run/dbus:/var/run/dbus \
-    -v /dev/galcore:/dev/galcore --privileged \
+    -v /dev:/dev --device-cgroup-rule="c 199:* rmw" \
+    --device-cgroup-rule="c 81:* rmw" --device-cgroup-rule="c 234:* rmw" \
+    --device-cgroup-rule="c 253:* rmw"  --device-cgroup-rule="c 226:* rmw" \
+    --device-cgroup-rule="c 235:* rmw" \
     --security-opt seccomp=unconfined --shm-size 256mb \
     artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/chromium-tests-imx8:stable-rc'
 

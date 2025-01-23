@@ -11,7 +11,10 @@ DOCKER_RUN_AM62='docker container run -d --name=chromium \
 
 DOCKER_RUN_IMX8='docker container run -d --name=chromium \
     -v /tmp:/tmp -v /var/run/dbus:/var/run/dbus \
-    -v /dev/galcore:/dev/galcore --device-cgroup-rule="c 199:* rmw" \
+    -v /dev:/dev --device-cgroup-rule="c 199:* rmw" \
+    --device-cgroup-rule="c 81:* rmw" --device-cgroup-rule="c 234:* rmw" \
+    --device-cgroup-rule="c 253:* rmw"  --device-cgroup-rule="c 226:* rmw" \
+    --device-cgroup-rule="c 235:* rmw" \
     --security-opt seccomp=unconfined --shm-size 256mb \
     artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/chromium-imx8:stable-rc \
     --virtual-keyboard http://info.cern.ch/hypertext/WWW/TheProject.html'
