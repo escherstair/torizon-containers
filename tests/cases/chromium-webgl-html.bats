@@ -3,7 +3,7 @@
 load ./weston-helper.sh
 
 # note the `-td`: it allocates a pty so it keeps the container running
-DOCKER_RUN='docker container run -dt --entrypoint /usr/bin/bash --name=chromium \
+DOCKER_RUN='docker container run -td --name=chromium-tests --entrypoint /usr/bin/bash \
     -v /tmp:/tmp -v /var/run/dbus:/var/run/dbus \
     -v /dev:/dev --device-cgroup-rule="c 199:* rmw" \
     --device-cgroup-rule="c 81:* rmw" --device-cgroup-rule="c 234:* rmw" \
@@ -16,8 +16,8 @@ setup_file() {
 
   setup_weston
 
-  docker container stop chromium || true
-  docker container rm chromium || true
+  docker container stop chromium-tests || true
+  docker container rm chromium-tests || true
 
   eval "$DOCKER_RUN"
 
@@ -25,9 +25,9 @@ setup_file() {
 }
 
 teardown_file() {
-  docker container stop chromium
-  docker image rm -f "$(docker container inspect -f '{{.Image}}' chromium)"
-  docker container rm chromium
+  docker container stop chromium-tests
+  docker image rm -f "$(docker container inspect -f '{{.Image}}' chromium-tests)"
+  docker container rm chromium-tests
 
   teardown_weston
 }
@@ -40,14 +40,14 @@ teardown_file() {
 
 # bats test_tags=platform:imx8
 @test "Is Chromium running?" {
-  docker container ls | grep -q chromium
+  docker container ls | grep -q chromium-tests
   status=$?
 
   [[ "$status" -eq 0 ]]
-  echo "Chromium container is running"
+  echo "chromium-tests container is running"
 }
 
 # bats test_tags=platform:imx8
 @test "WebGL test" {
-  docker exec -it chromium npm test
+  docker exec chromium-tests npm test
 }
