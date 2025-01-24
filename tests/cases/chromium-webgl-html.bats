@@ -10,7 +10,7 @@ DOCKER_RUN='docker container run -dt --entrypoint /usr/bin/bash --name=chromium 
     --device-cgroup-rule="c 253:* rmw"  --device-cgroup-rule="c 226:* rmw" \
     --device-cgroup-rule="c 235:* rmw" \
     --security-opt seccomp=unconfined --shm-size 256mb \
-    artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/chromium-tests-imx8:stable-rc'
+    $REGISTRY/torizon/chromium-tests-imx8:stable-rc'
 
 setup_file() {
 

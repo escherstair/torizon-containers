@@ -6,19 +6,19 @@ DOCKER_RUN_AM62='docker container run -d -it --net=host --name=qt6-wayland-examp
              --cap-add CAP_SYS_TTY_CONFIG -v /dev:/dev -v /tmp:/tmp -v /run/udev/:/run/udev/ \
              --device-cgroup-rule="c 4:* rmw"  --device-cgroup-rule="c 13:* rmw" \
              --device-cgroup-rule="c 226:* rmw" --device-cgroup-rule="c 29:* rmw" \
-             artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/qt6-wayland-examples-am62:stable-rc'
+             $REGISTRY/torizon/qt6-wayland-examples-am62:stable-rc'
 
 DOCKER_RUN_IMX8='docker container run -d -it --net=host --name=qt6-wayland-examples \
              --cap-add CAP_SYS_TTY_CONFIG -v /dev:/dev -v /tmp:/tmp -v /run/udev/:/run/udev/ \
              --device-cgroup-rule="c 4:* rmw"  --device-cgroup-rule="c 13:* rmw" \
              --device-cgroup-rule="c 226:* rmw" --device-cgroup-rule="c 29:* rmw" --device-cgroup-rule="c 199:* rmw" \
-             artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/qt6-wayland-examples-imx8:stable-rc'
+             $REGISTRY/torizon/qt6-wayland-examples-imx8:stable-rc'
 
 DOCKER_RUN_UPSTREAM='docker container run -d -it --net=host --name=qt6-wayland-examples \
              --cap-add CAP_SYS_TTY_CONFIG -v /dev:/dev -v /tmp:/tmp -v /run/udev/:/run/udev/ \
              --device-cgroup-rule="c 4:* rmw"  --device-cgroup-rule="c 13:* rmw" \
              --device-cgroup-rule="c 226:* rmw" --device-cgroup-rule="c 29:* rmw" \
-             artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/qt6-wayland-examples:stable-rc'
+             $REGISTRY/torizon/qt6-wayland-examples:stable-rc'
 
 setup_file() {
 

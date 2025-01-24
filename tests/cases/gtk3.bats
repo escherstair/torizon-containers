@@ -7,7 +7,7 @@ DOCKER_RUN_AM62='docker container run -d -it \
     --device-cgroup-rule="c 4:* rmw"  \
     --device-cgroup-rule="c 13:* rmw" \
     --device-cgroup-rule="c 226:* rmw" \
-    artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/gtk3-tests-am62:stable-rc bash'
+    $REGISTRY/torizon/gtk3-tests-am62:stable-rc bash'
 
 DOCKER_RUN_IMX8='docker container run -d -it \
     --name=gtk3-tests -v /dev:/dev -v /tmp:/tmp \
@@ -15,14 +15,14 @@ DOCKER_RUN_IMX8='docker container run -d -it \
     --device-cgroup-rule="c 13:* rmw" \
     --device-cgroup-rule="c 199:* rmw" \
     --device-cgroup-rule="c 226:* rmw" \
-    artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/gtk3-tests-imx8:stable-rc bash'
+    $REGISTRY/torizon/gtk3-tests-imx8:stable-rc bash'
 
 DOCKER_RUN_UPSTREAM='docker container run -d -it \
     --name=gtk3-tests -v /dev:/dev -v /tmp:/tmp \
     --device-cgroup-rule="c 4:* rmw"  \
     --device-cgroup-rule="c 13:* rmw" \
     --device-cgroup-rule="c 226:* rmw" \
-    artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/gtk3-tests:stable-rc bash'
+    $REGISTRY/torizon/gtk3-tests:stable-rc bash'
 
 setup_file() {
 

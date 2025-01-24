@@ -6,7 +6,7 @@ setup_weston() {
         -v /run/udev/:/run/udev/ --device-cgroup-rule="c 4:* rmw" \
         --device-cgroup-rule="c 13:* rmw" --device-cgroup-rule="c 226:* rmw" \
         --device-cgroup-rule="c 10:223 rmw" \
-        artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/weston-am62:stable-rc \
+        $REGISTRY/torizon/weston-am62:stable-rc \
         --developer --tty=/dev/tty7 -- --debug'
 
   local WESTON_RUN_IMX8='docker container run -d --name=weston --net=host \
@@ -15,7 +15,7 @@ setup_weston() {
         --device-cgroup-rule="c 4:* rmw" --device-cgroup-rule="c 253:* rmw" \
         --device-cgroup-rule="c 13:* rmw" --device-cgroup-rule="c 226:* rmw" \
         --device-cgroup-rule="c 10:223 rmw" --device-cgroup-rule="c 199:0 rmw" \
-        artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/weston-imx8:stable-rc \
+        $REGISTRY/torizon/weston-imx8:stable-rc \
         --developer --tty=/dev/tty7 -- --debug'
 
   local WESTON_RUN_UPSTREAM='docker container run -d --name=weston --net=host \
@@ -23,7 +23,7 @@ setup_weston() {
         -v /run/udev/:/run/udev/ --device-cgroup-rule="c 4:* rmw" \
         --device-cgroup-rule="c 13:* rmw" --device-cgroup-rule="c 226:* rmw" \
         --device-cgroup-rule="c 10:223 rmw" \
-        artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/weston:stable-rc \
+        $REGISTRY/torizon/weston:stable-rc \
         --developer --tty=/dev/tty7 -- --debug'
 
   docker container stop weston || true

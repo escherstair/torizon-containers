@@ -6,7 +6,7 @@ DOCKER_RUN_AM62='docker container run -d --name=chromium \
     -v /tmp:/tmp -v /var/run/dbus:/var/run/dbus \
     -v /dev/dri:/dev/dri --device-cgroup-rule="c 226:* rmw" \
     --security-opt seccomp=unconfined --shm-size 256mb \
-    artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/chromium-am62:stable-rc \
+    $REGISTRY/torizon/chromium-am62:stable-rc \
     --virtual-keyboard http://info.cern.ch/hypertext/WWW/TheProject.html'
 
 DOCKER_RUN_IMX8='docker container run -d --name=chromium \
@@ -16,14 +16,14 @@ DOCKER_RUN_IMX8='docker container run -d --name=chromium \
     --device-cgroup-rule="c 253:* rmw"  --device-cgroup-rule="c 226:* rmw" \
     --device-cgroup-rule="c 235:* rmw" \
     --security-opt seccomp=unconfined --shm-size 256mb \
-    artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/chromium-imx8:stable-rc \
+    $REGISTRY/torizon/chromium-imx8:stable-rc \
     --virtual-keyboard http://info.cern.ch/hypertext/WWW/TheProject.html'
 
 DOCKER_RUN_UPSTREAM='docker container run -d --name=chromium \
     -v /tmp:/tmp -v /var/run/dbus:/var/run/dbus \
     -v /dev/dri:/dev/dri --device-cgroup-rule="c 226:* rmw" \
     --security-opt seccomp=unconfined --shm-size 256mb \
-    artifactory-horw.int.toradex.com/dockerhub-proxy-horw/torizon/chromium:stable-rc \
+    $REGISTRY/torizon/chromium:stable-rc \
     --virtual-keyboard http://info.cern.ch/hypertext/WWW/TheProject.html'
 
 setup_file() {
