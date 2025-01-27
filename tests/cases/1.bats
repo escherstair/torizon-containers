@@ -11,13 +11,13 @@ load ./kernel-helper.sh
 # will be flushed in subsequent test runs (dmesg is the first example).
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream
-@test "Print unflushed GPU kernel logs" {
+@test "pre-test: unflushed GPU kernel logs" {
   # subsequent tests will clean the kernel logs, so don't bother here
   run -0 gpu_kernel_logs
 }
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream
-@test "Check if any display is connected" {
+@test "DRM interface is available" {
   for interface in /sys/class/drm/*/status; do
     if [ -f "$interface" ]; then
       status=$(cat "$interface")

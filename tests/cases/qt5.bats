@@ -1,24 +1,25 @@
 #!/usr/bin/env bats
 
 load ./kernel-helper.sh
+load ./general-helper.sh
 
-DOCKER_RUN_AM62='docker container run -d -it --net=host --name=qt5-wayland-examples \
+DOCKER_RUN_AM62="docker container run -d -it --net=host --name=qt5-wayland-examples \
              --cap-add CAP_SYS_TTY_CONFIG -v /dev:/dev -v /tmp:/tmp -v /run/udev/:/run/udev/ \
-             --device-cgroup-rule="c 4:* rmw"  --device-cgroup-rule="c 13:* rmw" \
-             --device-cgroup-rule="c 226:* rmw" --device-cgroup-rule="c 29:* rmw" \
-             $REGISTRY/torizon/qt5-wayland-examples-am62:stable-rc'
+             --device-cgroup-rule='c 4:* rmw'  --device-cgroup-rule='c 13:* rmw' \
+             --device-cgroup-rule='c 226:* rmw' --device-cgroup-rule='c 29:* rmw' \
+             $REGISTRY/torizon/qt5-wayland-examples-am62:stable-rc"
 
-DOCKER_RUN_IMX8='docker container run -d -it --net=host --name=qt5-wayland-examples \
+DOCKER_RUN_IMX8="docker container run -d -it --net=host --name=qt5-wayland-examples \
              --cap-add CAP_SYS_TTY_CONFIG -v /dev:/dev -v /tmp:/tmp -v /run/udev/:/run/udev/ \
-             --device-cgroup-rule="c 4:* rmw"  --device-cgroup-rule="c 13:* rmw" \
-             --device-cgroup-rule="c 226:* rmw" --device-cgroup-rule="c 29:* rmw" --device-cgroup-rule="c 199:* rmw" \
-             $REGISTRY/torizon/qt5-wayland-examples-imx8:stable-rc'
+             --device-cgroup-rule='c 4:* rmw' --device-cgroup-rule='c 13:* rmw' \
+             --device-cgroup-rule='c 226:* rmw' --device-cgroup-rule='c 29:* rmw' --device-cgroup-rule='c 199:* rmw' \
+             $REGISTRY/torizon/qt5-wayland-examples-imx8:stable-rc"
 
-DOCKER_RUN_UPSTREAM='docker container run -d -it --net=host --name=qt5-wayland-examples \
+DOCKER_RUN_UPSTREAM="docker container run -d -it --net=host --name=qt5-wayland-examples \
              --cap-add CAP_SYS_TTY_CONFIG -v /dev:/dev -v /tmp:/tmp -v /run/udev/:/run/udev/ \
-             --device-cgroup-rule="c 4:* rmw"  --device-cgroup-rule="c 13:* rmw" \
-             --device-cgroup-rule="c 226:* rmw" --device-cgroup-rule="c 29:* rmw" \
-             $REGISTRY/torizon/qt5-wayland-examples:stable-rc'
+             --device-cgroup-rule='c 4:* rmw' --device-cgroup-rule='c 13:* rmw' \
+             --device-cgroup-rule='c 226:* rmw' --device-cgroup-rule='c 29:* rmw' \
+             $REGISTRY/torizon/qt5-wayland-examples:stable-rc"
 
 setup_file() {
 
@@ -56,13 +57,11 @@ setup_file() {
 }
 
 teardown_file() {
-  docker container stop qt5-wayland-examples
-  docker image rm -f "$(docker container inspect -f '{{.Image}}' qt5-wayland-examples)"
-  docker container rm qt5-wayland-examples
+  cleanup_container qt5-wayland-examples
 }
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream
-@test "EGL kmscube" {
+@test "Qt5 EGL kmscube runs" {
   bats_require_minimum_version 1.5.0
 
   run -0 clean_kernel_logs
@@ -78,7 +77,7 @@ teardown_file() {
 }
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream
-@test "LinuxFB shapedclock" {
+@test "Qt5 LinuxFB shapedclock runs" {
   bats_require_minimum_version 1.5.0
 
   RUN_LINUXFB_SHAPEDCLOCK_EXAMPLE="$LIB_PATH_PREFIX/qt5/examples/widgets/widgets/shapedclock/shapedclock"

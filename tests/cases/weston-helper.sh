@@ -1,30 +1,30 @@
 #!/usr/bin/env bash
 
 setup_weston() {
-  local WESTON_RUN_AM62='docker container run -d --name=weston --net=host \
+  local WESTON_RUN_AM62="docker container run -d --name=weston --net=host \
         --cap-add CAP_SYS_TTY_CONFIG -v /dev:/dev -v /tmp:/tmp \
-        -v /run/udev/:/run/udev/ --device-cgroup-rule="c 4:* rmw" \
-        --device-cgroup-rule="c 13:* rmw" --device-cgroup-rule="c 226:* rmw" \
-        --device-cgroup-rule="c 10:223 rmw" \
+        -v /run/udev/:/run/udev/ --device-cgroup-rule='c 4:* rmw' \
+        --device-cgroup-rule='c 13:* rmw' --device-cgroup-rule='c 226:* rmw' \
+        --device-cgroup-rule='c 10:223 rmw' \
         $REGISTRY/torizon/weston-am62:stable-rc \
-        --developer --tty=/dev/tty7 -- --debug'
+        --developer --tty=/dev/tty7 -- --debug"
 
-  local WESTON_RUN_IMX8='docker container run -d --name=weston --net=host \
+  local WESTON_RUN_IMX8="docker container run -d --name=weston --net=host \
         --cap-add CAP_SYS_TTY_CONFIG \
         -v /dev:/dev -v /tmp:/tmp -v /run/udev/:/run/udev/ \
-        --device-cgroup-rule="c 4:* rmw" --device-cgroup-rule="c 253:* rmw" \
-        --device-cgroup-rule="c 13:* rmw" --device-cgroup-rule="c 226:* rmw" \
-        --device-cgroup-rule="c 10:223 rmw" --device-cgroup-rule="c 199:0 rmw" \
+        --device-cgroup-rule='c 4:* rmw' --device-cgroup-rule='c 253:* rmw' \
+        --device-cgroup-rule='c 13:* rmw' --device-cgroup-rule='c 226:* rmw' \
+        --device-cgroup-rule='c 10:223 rmw' --device-cgroup-rule='c 199:0 rmw' \
         $REGISTRY/torizon/weston-imx8:stable-rc \
-        --developer --tty=/dev/tty7 -- --debug'
+        --developer --tty=/dev/tty7 -- --debug"
 
-  local WESTON_RUN_UPSTREAM='docker container run -d --name=weston --net=host \
+  local WESTON_RUN_UPSTREAM="docker container run -d --name=weston --net=host \
         --cap-add CAP_SYS_TTY_CONFIG -v /dev:/dev -v /tmp:/tmp \
-        -v /run/udev/:/run/udev/ --device-cgroup-rule="c 4:* rmw" \
-        --device-cgroup-rule="c 13:* rmw" --device-cgroup-rule="c 226:* rmw" \
-        --device-cgroup-rule="c 10:223 rmw" \
+        -v /run/udev/:/run/udev/ --device-cgroup-rule='c 4:* rmw' \
+        --device-cgroup-rule='c 13:* rmw' --device-cgroup-rule='c 226:* rmw' \
+        --device-cgroup-rule='c 10:223 rmw' \
         $REGISTRY/torizon/weston:stable-rc \
-        --developer --tty=/dev/tty7 -- --debug'
+        --developer --tty=/dev/tty7 -- --debug"
 
   docker container stop weston || true
   docker container rm weston || true

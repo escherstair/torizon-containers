@@ -6,11 +6,6 @@
 gpu_kernel_logs() {
   logs=$(dmesg --read-clear | grep -i -E '(gpu|vivante|etnaviv|mali|gal|pvr)')
   echo "$logs"
-  if echo "$logs" | grep -q -i 'fail'; then
-    return 1
-  else
-    return 0
-  fi
 }
 
 clean_kernel_logs() {

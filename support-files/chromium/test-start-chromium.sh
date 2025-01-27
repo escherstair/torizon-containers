@@ -8,6 +8,8 @@ run_test() {
   local expected_output="$3"
 
   echo "Running test: $test_name"
+  # we specifically want to split the args here, so ignore 2086
+  # shellcheck disable=SC2086
   actual_output=$(bash ./start-chromium.sh $args)
 
   if [ "$actual_output" = "$expected_output" ]; then

@@ -1,28 +1,29 @@
 #!/usr/bin/env bats
 
 load ./weston-helper.sh
+load ./general-helper.sh
 
-DOCKER_RUN_AM62='docker container run -d -it \
+DOCKER_RUN_AM62="docker container run -d -it \
     --name=gtk3-tests -v /dev:/dev -v /tmp:/tmp \
-    --device-cgroup-rule="c 4:* rmw"  \
-    --device-cgroup-rule="c 13:* rmw" \
-    --device-cgroup-rule="c 226:* rmw" \
-    $REGISTRY/torizon/gtk3-tests-am62:stable-rc bash'
+    --device-cgroup-rule='c 4:* rmw'  \
+    --device-cgroup-rule='c 13:* rmw' \
+    --device-cgroup-rule='c 226:* rmw' \
+    $REGISTRY/torizon/gtk3-tests-am62:stable-rc bash"
 
-DOCKER_RUN_IMX8='docker container run -d -it \
+DOCKER_RUN_IMX8="docker container run -d -it \
     --name=gtk3-tests -v /dev:/dev -v /tmp:/tmp \
-    --device-cgroup-rule="c 4:* rmw"  \
-    --device-cgroup-rule="c 13:* rmw" \
-    --device-cgroup-rule="c 199:* rmw" \
-    --device-cgroup-rule="c 226:* rmw" \
-    $REGISTRY/torizon/gtk3-tests-imx8:stable-rc bash'
+    --device-cgroup-rule='c 4:* rmw'  \
+    --device-cgroup-rule='c 13:* rmw' \
+    --device-cgroup-rule='c 199:* rmw' \
+    --device-cgroup-rule='c 226:* rmw' \
+    $REGISTRY/torizon/gtk3-tests-imx8:stable-rc bash"
 
-DOCKER_RUN_UPSTREAM='docker container run -d -it \
+DOCKER_RUN_UPSTREAM="docker container run -d -it \
     --name=gtk3-tests -v /dev:/dev -v /tmp:/tmp \
-    --device-cgroup-rule="c 4:* rmw"  \
-    --device-cgroup-rule="c 13:* rmw" \
-    --device-cgroup-rule="c 226:* rmw" \
-    $REGISTRY/torizon/gtk3-tests:stable-rc bash'
+    --device-cgroup-rule='c 4:* rmw'  \
+    --device-cgroup-rule='c 13:* rmw' \
+    --device-cgroup-rule='c 226:* rmw' \
+    $REGISTRY/torizon/gtk3-tests:stable-rc bash"
 
 setup_file() {
 
@@ -42,37 +43,18 @@ setup_file() {
   eval "$DOCKER_RUN"
 
   sleep 10
+
+  check_if_base_container_runs gtk3-tests
 }
 
 teardown_file() {
-  docker container stop gtk3-tests
-  docker image rm -f "$(docker container inspect -f '{{.Image}}' gtk3-tests)"
-  docker container rm gtk3-tests
+  cleanup_container graphics-tests
 
   teardown_weston
 }
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream
-@test "Is Weston running?" {
-  run weston_container_logs
-  run is_weston_running
-}
-
-# bats test_tags=platform:imx8, platform:am62, platform:upstream
-@test "Check if gtk3 container is running" {
-  docker container ls | grep -q gtk3-tests
-  status=$?
-
-  if [[ "$status" -ne 0 ]]; then
-    echo "GTK 3 container is not running"
-    exit 1
-  else
-    echo "GTK 3 container is running"
-  fi
-}
-
-# bats test_tags=platform:imx8, platform:am62, platform:upstream
-@test "Simple GTK 3 test" {
+@test "Simple GTK3 application runs" {
   bats_require_minimum_version 1.5.0
 
   RUN_SIMPLE_GTK_3_TEST='simple-gtk3-test'
@@ -85,7 +67,7 @@ teardown_file() {
 }
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream
-@test "GTK 3 example" {
+@test "gtk3-icon-browser runs" {
   bats_require_minimum_version 1.5.0
 
   RUN_GTK_3_EXAMPLE='gtk3-icon-browser'

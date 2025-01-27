@@ -2,20 +2,21 @@
 
 load ./weston-helper.sh
 load ./kernel-helper.sh
+load ./general-helper.sh
 
-DOCKER_RUN_AM62='docker container run -d -it \
-            --name=graphics-tests -v /dev:/dev --device-cgroup-rule="c 4:* rmw"  \
-            --device-cgroup-rule="c 13:* rmw" --device-cgroup-rule="c 199:* rmw" \
-            --device-cgroup-rule="c 226:* rmw" \
-            $REGISTRY/torizon/graphics-tests-am62:stable-rc'
+DOCKER_RUN_AM62="docker container run -d -it \
+            --name=graphics-tests -v /dev:/dev --device-cgroup-rule='c 4:* rmw' \
+            --device-cgroup-rule='c 13:* rmw' --device-cgroup-rule='c 199:* rmw' \
+            --device-cgroup-rule='c 226:* rmw' \
+            $REGISTRY/torizon/graphics-tests-am62:stable-rc"
 
-DOCKER_RUN_IMX8='docker container run -e ACCEPT_FSL_EULA=1 -d -it --privileged \
+DOCKER_RUN_IMX8="docker container run -e ACCEPT_FSL_EULA=1 -d -it --privileged \
             --name=graphics-tests -v /dev:/dev -v /tmp:/tmp \
-            $REGISTRY/torizon/graphics-tests-imx8:stable-rc'
+            $REGISTRY/torizon/graphics-tests-imx8:stable-rc"
 
-DOCKER_RUN_UPSTREAM='docker container run -e ACCEPT_FSL_EULA=1 -d -it --privileged \
+DOCKER_RUN_UPSTREAM="docker container run -e ACCEPT_FSL_EULA=1 -d -it --privileged \
             --name=graphics-tests -v /dev:/dev -v /tmp:/tmp \
-            $REGISTRY/torizon/graphics-tests:stable-rc'
+            $REGISTRY/torizon/graphics-tests:stable-rc"
 
 setup_file() {
 
@@ -35,24 +36,18 @@ setup_file() {
   eval "$DOCKER_RUN"
 
   sleep 10
+
+  check_if_base_container_runs graphics-tests
 }
 
 teardown_file() {
-  docker container stop graphics-tests
-  docker image rm -f "$(docker container inspect -f '{{.Image}}' graphics-tests)"
-  docker container rm graphics-tests
+  cleanup_container graphics-tests
 
   teardown_weston
 }
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream
-@test "Is Weston running?" {
-  run weston_container_logs
-  run is_weston_running
-}
-
-# bats test_tags=platform:imx8, platform:am62, platform:upstream
-@test "Weston Simple EGL" {
+@test "Weston Simple EGL runs" {
   bats_require_minimum_version 1.5.0
 
   run -0 clean_kernel_logs
@@ -62,7 +57,7 @@ teardown_file() {
 }
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream
-@test "Weston Terminal" {
+@test "Weston Terminal runs" {
   bats_require_minimum_version 1.5.0
 
   run -124 docker container exec weston timeout 5s weston-terminal
@@ -70,7 +65,11 @@ teardown_file() {
 }
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream
-@test "GLMark2" {
+@test "GLMark2 has sufficient score" {
+  if [[ "$SOC_UDT" =~ imx7 ]]; then
+    skip "imx7 doesn't have a GPU"
+  fi
+
   SCORE_PASS_THRESHOLD=220
 
   run -0 clean_kernel_logs
@@ -87,7 +86,7 @@ teardown_file() {
 }
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream
-@test "Xwayland" {
+@test "XTerm with XWayland runs" {
   bats_require_minimum_version 1.5.0
 
   run -124 docker container exec --user torizon graphics-tests timeout 5s xterm -fa DejaVuSansMono

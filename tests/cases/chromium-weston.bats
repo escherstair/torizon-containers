@@ -1,30 +1,31 @@
 #!/usr/bin/env bats
 
 load ./weston-helper.sh
+load ./general-helper.sh
 
-DOCKER_RUN_AM62='docker container run -d --name=chromium \
+DOCKER_RUN_AM62="docker container run -d --name=chromium \
     -v /tmp:/tmp -v /var/run/dbus:/var/run/dbus \
-    -v /dev/dri:/dev/dri --device-cgroup-rule="c 226:* rmw" \
+    -v /dev/dri:/dev/dri --device-cgroup-rule='c 226:* rmw' \
     --security-opt seccomp=unconfined --shm-size 256mb \
     $REGISTRY/torizon/chromium-am62:stable-rc \
-    --virtual-keyboard http://info.cern.ch/hypertext/WWW/TheProject.html'
+    --virtual-keyboard http://info.cern.ch/hypertext/WWW/TheProject.html"
 
-DOCKER_RUN_IMX8='docker container run -d --name=chromium \
+# note the `-td`: it allocates a pty so it keeps the container running
+DOCKER_RUN_IMX8="docker container run -td --name=chromium-tests --entrypoint /usr/bin/bash \
     -v /tmp:/tmp -v /var/run/dbus:/var/run/dbus \
-    -v /dev:/dev --device-cgroup-rule="c 199:* rmw" \
-    --device-cgroup-rule="c 81:* rmw" --device-cgroup-rule="c 234:* rmw" \
-    --device-cgroup-rule="c 253:* rmw"  --device-cgroup-rule="c 226:* rmw" \
-    --device-cgroup-rule="c 235:* rmw" \
+    -v /dev:/dev --device-cgroup-rule='c 199:* rmw' \
+    --device-cgroup-rule='c 81:* rmw' --device-cgroup-rule='c 234:* rmw' \
+    --device-cgroup-rule='c 253:* rmw'  --device-cgroup-rule='c 226:* rmw' \
+    --device-cgroup-rule='c 235:* rmw' \
     --security-opt seccomp=unconfined --shm-size 256mb \
-    $REGISTRY/torizon/chromium-imx8:stable-rc \
-    --virtual-keyboard http://info.cern.ch/hypertext/WWW/TheProject.html'
+    $REGISTRY/torizon/chromium-tests-imx8:stable-rc"
 
-DOCKER_RUN_UPSTREAM='docker container run -d --name=chromium \
+DOCKER_RUN_UPSTREAM="docker container run -d --name=chromium \
     -v /tmp:/tmp -v /var/run/dbus:/var/run/dbus \
-    -v /dev/dri:/dev/dri --device-cgroup-rule="c 226:* rmw" \
+    -v /dev/dri:/dev/dri --device-cgroup-rule='c 226:* rmw' \
     --security-opt seccomp=unconfined --shm-size 256mb \
     $REGISTRY/torizon/chromium:stable-rc \
-    --virtual-keyboard http://info.cern.ch/hypertext/WWW/TheProject.html'
+    --virtual-keyboard http://info.cern.ch/hypertext/WWW/TheProject.html"
 
 setup_file() {
 
@@ -47,24 +48,17 @@ setup_file() {
 }
 
 teardown_file() {
-  docker container stop chromium
-  docker image rm -f "$(docker container inspect -f '{{.Image}}' chromium)"
-  docker container rm chromium
+  cleanup_container chromium-tests
 
   teardown_weston
 }
 
 # bats test_tags=platform:imx8, platform:am62, platform:upstream
-@test "Is Weston running?" {
-  run weston_container_logs
-  run is_weston_running
+@test "Chromium runs" {
+  run -124 docker container exec --user torizon chromium-tests timeout 20s start-browser
 }
 
-# bats test_tags=platform:imx8, platform:am62, platform:upstream
-@test "Is Chromium running?" {
-  docker container ls | grep -q chromium
-  status=$?
-
-  [[ "$status" -eq 0 ]]
-  echo "Chromium container is running"
+# bats test_tags=platform:imx8
+@test "Chromium can display WebGL content" {
+  docker exec chromium-tests npm test
 }
