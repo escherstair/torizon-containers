@@ -168,16 +168,20 @@ e2e-test-colibri-imx6ull-emmc-nightly:
 
 aggregate-reports:
   stage: report
-  image: alpine
+  image: homebrew/brew
   rules:
     - if: $CI_WORLD_TEST == "true"
       when: on_success
   script:
     - mkdir -p reports
     - mv *.xml reports/
+    # get xray-junit-uploader from internal brew tap
+    - brew tap homebrew-toradex/xray-junit-uploader https://gitlab.int.toradex.com/rd/torizon-core-containers/homebrew-toradex.git
+    - brew install xray-junit-uploader
+    - xray-junit-uploader --report reports/report-e2e-test-verdin-imx8mpq-nightly.xml --test-exec-key $VERDIN_IMX8MPQ_TEST_EXEC_KEY
   artifacts:
     paths:
       - reports/
   variables:
-    # prevents gitlab git cleaning the untracked xml files
+    VERDIN_IMX8MPQ_TEST_EXEC_KEY: "TCCP-934"
     GIT_CLEAN_FLAGS: none
