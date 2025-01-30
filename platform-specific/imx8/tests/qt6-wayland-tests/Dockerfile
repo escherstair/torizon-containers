@@ -14,6 +14,7 @@ RUN apt-get update && \
         build-essential \
         cmake \
         imx-gpu-viv-wayland-dev \
+        libgles-dev \
         libqt6opengl6-dev \
         qt6-base-dev \
     && apt-get clean \
