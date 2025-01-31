@@ -182,7 +182,7 @@ aggregate-reports:
       var_name="${prefix}_TEST_EXEC_KEY"
       report_path="reports/report-e2e-test-${board_name}-nightly.xml"
       if [ -f "$report_path" ]; then
-      xray-junit-uploader --report "$report_path" --test-exec-key "${!var_name}"
+      xray-junit-uploader --report "$report_path" --test-plan-key "$TORIZON_OS_TEST_PLAN_KEY" --test-exec-key "${!var_name}"
       fi
       done
   artifacts:
@@ -198,4 +198,5 @@ aggregate-reports:
     COLIBRI_IMX7D_TEST_EXEC_KEY: "TCCP-953"
     COLIBRI_IMX6DL_TEST_EXEC_KEY: "TCCP-959"
     COLIBIR_IMX6ULL_TEST_EXEC_KEY: "TCPP-960"
+    TORIZON_OS_TEST_PLAN_KEY: "TOR-3748"
     GIT_CLEAN_FLAGS: none
