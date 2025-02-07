@@ -15,6 +15,12 @@ DOCKER_RUN_IMX8="docker container run -d -it --net=host --name=qt5-wayland-examp
              --device-cgroup-rule='c 226:* rmw' --device-cgroup-rule='c 29:* rmw' --device-cgroup-rule='c 199:* rmw' \
              $REGISTRY/torizon/qt5-wayland-examples-imx8:stable-rc"
 
+DOCKER_RUN_IMX95="docker container run -d -it --net=host --name=qt5-wayland-examples \
+             --cap-add CAP_SYS_TTY_CONFIG -v /dev:/dev -v /tmp:/tmp -v /run/udev/:/run/udev/ \
+             --device-cgroup-rule='c 4:* rmw' --device-cgroup-rule='c 13:* rmw' \
+             --device-cgroup-rule='c 226:* rmw' --device-cgroup-rule='c 29:* rmw' --device-cgroup-rule='c 199:* rmw' \
+             $REGISTRY/torizon/qt5-wayland-examples-imx95:stable-rc"
+
 DOCKER_RUN_UPSTREAM="docker container run -d -it --net=host --name=qt5-wayland-examples \
              --cap-add CAP_SYS_TTY_CONFIG -v /dev:/dev -v /tmp:/tmp -v /run/udev/:/run/udev/ \
              --device-cgroup-rule='c 4:* rmw' --device-cgroup-rule='c 13:* rmw' \
@@ -30,6 +36,8 @@ setup_file() {
     DOCKER_RUN=$DOCKER_RUN_AM62
   elif [[ "$PLATFORM_FILTER" == *imx8* ]]; then
     DOCKER_RUN=$DOCKER_RUN_IMX8
+  elif [[ "$PLATFORM_FILTER" == *imx95* ]]; then
+    DOCKER_RUN=$DOCKER_RUN_IMX95
   else
     DOCKER_RUN=$DOCKER_RUN_UPSTREAM
   fi
@@ -60,7 +68,7 @@ teardown_file() {
   cleanup_container qt5-wayland-examples
 }
 
-# bats test_tags=platform:imx8, platform:am62, platform:upstream
+# bats test_tags=platform:imx8, platform:imx95, platform:am62, platform:upstream
 @test "Qt5 EGL kmscube runs" {
   bats_require_minimum_version 1.5.0
 
@@ -76,7 +84,7 @@ teardown_file() {
   run -0 gpu_kernel_logs
 }
 
-# bats test_tags=platform:imx8, platform:am62, platform:upstream
+# bats test_tags=platform:imx8, platform:imx95, platform:am62, platform:upstream
 @test "Qt5 LinuxFB shapedclock runs" {
   bats_require_minimum_version 1.5.0
 

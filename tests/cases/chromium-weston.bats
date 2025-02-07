@@ -20,6 +20,16 @@ DOCKER_RUN_IMX8="docker container run -td --name=chromium-tests --entrypoint /us
     --security-opt seccomp=unconfined --shm-size 256mb \
     $REGISTRY/torizon/chromium-tests-imx8:stable-rc"
 
+# note the `-td`: it allocates a pty so it keeps the container running
+DOCKER_RUN_IMX95="docker container run -td --name=chromium-tests --entrypoint /usr/bin/bash \
+    -v /tmp:/tmp -v /var/run/dbus:/var/run/dbus \
+    -v /dev:/dev --device-cgroup-rule='c 199:* rmw' \
+    --device-cgroup-rule='c 81:* rmw' --device-cgroup-rule='c 234:* rmw' \
+    --device-cgroup-rule='c 253:* rmw'  --device-cgroup-rule='c 226:* rmw' \
+    --device-cgroup-rule='c 235:* rmw' \
+    --security-opt seccomp=unconfined --shm-size 256mb \
+    $REGISTRY/torizon/chromium-tests-imx95:stable-rc"
+
 DOCKER_RUN_UPSTREAM="docker container run -d --name=chromium \
     -v /tmp:/tmp -v /var/run/dbus:/var/run/dbus \
     -v /dev/dri:/dev/dri --device-cgroup-rule='c 226:* rmw' \
@@ -38,6 +48,8 @@ setup_file() {
     DOCKER_RUN=$DOCKER_RUN_AM62
   elif [[ "$PLATFORM_FILTER" == *imx8* ]]; then
     DOCKER_RUN=$DOCKER_RUN_IMX8
+  elif [[ "$PLATFORM_FILTER" == *imx95* ]]; then
+    DOCKER_RUN=$DOCKER_RUN_IMX95
   else
     DOCKER_RUN=$DOCKER_RUN_UPSTREAM
   fi
@@ -53,12 +65,12 @@ teardown_file() {
   teardown_weston
 }
 
-# bats test_tags=platform:imx8, platform:am62, platform:upstream
+# bats test_tags=platform:imx8, platform:imx95, platform:am62, platform:upstream
 @test "Chromium runs" {
   run -124 docker container exec --user torizon chromium-tests timeout 20s start-browser
 }
 
-# bats test_tags=platform:imx8
+# bats test_tags=platform:imx8, platform:imx95
 @test "Chromium can display WebGL content" {
   docker exec chromium-tests npm test
 }
