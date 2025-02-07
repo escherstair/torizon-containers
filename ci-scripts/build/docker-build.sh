@@ -11,6 +11,9 @@ if [[ "${IMAGE_NAME}" == *am62 ]]; then
 elif [[ "${IMAGE_NAME}" == *imx8 ]]; then
   TORADEX_SNAPSHOT=$(curl https://feeds.toradex.com/stable/imx8/snapshots/latest-snapshot)
   export TORADEX_SNAPSHOT
+elif [[ "${IMAGE_NAME}" == *imx95 ]]; then
+  TORADEX_SNAPSHOT=$(curl https://feeds.toradex.com/stable/imx95/snapshots/latest-snapshot)
+  export TORADEX_SNAPSHOT
 else
   TORADEX_SNAPSHOT=$(curl https://feeds.toradex.com/stable/upstream/snapshots/latest-snapshot)
   export TORADEX_SNAPSHOT
