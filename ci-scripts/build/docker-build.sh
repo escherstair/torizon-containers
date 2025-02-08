@@ -56,18 +56,24 @@ for PLATFORM in "${SELECTED_PLATFORMS[@]}"; do
   BUILD_PLATFORMS="$BUILD_PLATFORMS --platform $PLATFORM"
 done
 
-if [[ "${CI_PIPELINE_SOURCE}" == "merge_request_event" || "${CI_COMMIT_REF_PROTECTED}" == "false" ]]; then
-  export PULL_REGISTRY=${CI_REGISTRY}
-  export PUSH_REGISTRY=${CI_REGISTRY}
-  export REGISTRY_NAMESPACE=${CI_PROJECT_PATH}
-  export IMAGE_TAG=${CI_COMMIT_REF_SLUG}-${CI_PIPELINE_ID}
-fi
-
+# The two if blocks below must be in this specific order so that the tests
+# container is pushed to the local GitLab registry instead of DockerHub
+# *even* if it's running on a protected tag.
+# ie, the first block (CI_COMMIT_REF_PROTECTED == true) will match, but will
+# get overwritten by the second block on test pipelines due to 
+# CI_WORLD_TEST == true, achieving the effect described above.
 if [[ "${CI_COMMIT_REF_PROTECTED}" == "true" ]]; then
   export PULL_REGISTRY=${TORADEX_INTERNAL_DOCKERHUB_CACHE}
   export PUSH_REGISTRY="docker.io"
   export REGISTRY_NAMESPACE=${PROJECT_SETTING_REGISTRY_NAMESPACE}
   export IMAGE_TAG=${CI_COMMIT_BRANCH}-rc
+fi
+
+if [[ "${CI_PIPELINE_SOURCE}" == "merge_request_event" || "${CI_COMMIT_REF_PROTECTED}" == "false" || ${CI_WORLD_TEST} == "true" ]]; then
+  export PULL_REGISTRY=${CI_REGISTRY}
+  export PUSH_REGISTRY=${CI_REGISTRY}
+  export REGISTRY_NAMESPACE=${CI_PROJECT_PATH}
+  export IMAGE_TAG=${CI_COMMIT_REF_SLUG}-${CI_PIPELINE_ID}
 fi
 
 # shellcheck disable=SC2086

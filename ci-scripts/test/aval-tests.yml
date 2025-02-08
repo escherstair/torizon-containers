@@ -4,34 +4,20 @@ stages:
   - report
 
 build-tests-container:
-  extends: .docker-configure
+  extends: .docker-build
   stage: build
-  image: docker:dind
   rules:
     - if: $CI_WORLD_TEST == "true" || $CI_PIPELINE_SOURCE == "merge_request_event"
       when: always
       changes:
         - /ci-scripts/test/*
         - tests/**/*
-  services:
-    - name: docker:dind
   variables:
-    TORADEX_INTERNAL_DOCKERHUB_CACHE: "artifactory-horw.int.toradex.com/dockerhub-proxy-horw"
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
-    DOCKER_DRIVER: overlay2
-  script:
-    - docker info
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker buildx create --name multiarch-builder --driver docker-container --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --use
-    - docker buildx inspect --bootstrap
-    - docker run --privileged --rm ${TORADEX_INTERNAL_DOCKERHUB_CACHE}/tonistiigi/binfmt --install arm64,arm
-    - docker buildx build
-      --progress=plain
-      --file tests/Dockerfile
-      --push
-      --platform linux/arm/v7,linux/arm64/v8,linux/amd64
-      -t ${CI_REGISTRY}/${CI_PROJECT_PATH}/torizon-containers-tests:${CI_COMMIT_REF_SLUG}-${CI_PIPELINE_ID} .
+    IMAGE_NAME: torizon-containers-tests
+    DOCKERFILE_FOLDER: ./tests/
+    DOCKERFILE_BUILD_CONTEXT_FOLDER: "."
+    BUILD_FOR_ARM_V8: "true"
+    BUILD_FOR_ARM_V7: "true"
 
 .e2e-test-template:
   stage: test
