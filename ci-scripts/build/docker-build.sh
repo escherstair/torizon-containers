@@ -60,7 +60,7 @@ done
 # container is pushed to the local GitLab registry instead of DockerHub
 # *even* if it's running on a protected tag.
 # ie, the first block (CI_COMMIT_REF_PROTECTED == true) will match, but will
-# get overwritten by the second block on test pipelines due to 
+# get overwritten by the second block on test pipelines due to
 # CI_WORLD_TEST == true, achieving the effect described above.
 if [[ "${CI_COMMIT_REF_PROTECTED}" == "true" ]]; then
   export PULL_REGISTRY=${TORADEX_INTERNAL_DOCKERHUB_CACHE}
