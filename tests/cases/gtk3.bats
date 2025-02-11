@@ -37,7 +37,7 @@ setup_file() {
 
   setup_weston
 
-  docker container stop gtk3-tests || true
+  docker container kill gtk3-tests || true
   docker container rm gtk3-tests || true
 
   if [[ "$PLATFORM_FILTER" == *am62* ]]; then

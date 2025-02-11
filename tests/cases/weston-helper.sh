@@ -35,7 +35,7 @@ setup_weston() {
         $REGISTRY/torizon/weston:stable-rc \
         --developer --tty=/dev/tty7 -- --debug"
 
-  docker container stop weston || true
+  docker container kill weston || true
   docker container rm weston || true
 
   local DOCKER_RUN
@@ -71,7 +71,7 @@ is_weston_running() {
 }
 
 teardown_weston() {
-  docker container stop weston || true
+  docker container kill weston || true
 
   IMAGE_ID=$(docker container inspect -f '{{.Image}}' weston 2>/dev/null)
   if [[ -n "$IMAGE_ID" ]]; then

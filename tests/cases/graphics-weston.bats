@@ -26,7 +26,7 @@ setup_file() {
 
   setup_weston
 
-  docker container stop graphics-tests || true
+  docker container kill graphics-tests || true
   docker container rm graphics-tests || true
 
   if [[ "$PLATFORM_FILTER" == *am62* ]]; then

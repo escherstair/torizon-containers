@@ -15,7 +15,7 @@ check_if_base_container_runs() {
 cleanup_container() {
   local container_name="$1"
 
-  docker container stop "$container_name"
+  docker container kill "$container_name"
   docker image rm -f "$(docker container inspect -f '{{.Image}}' "$container_name")"
   docker container rm "$container_name"
 }

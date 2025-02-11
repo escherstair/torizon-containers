@@ -22,7 +22,7 @@ DOCKER_RUN_UPSTREAM="docker container run -e ACCEPT_FSL_EULA=1 -d -it --privileg
             $REGISTRY/torizon/graphics-tests:stable-rc"
 
 setup_file() {
-  docker container stop graphics-tests || true
+  docker container kill graphics-tests || true
   docker container rm graphics-tests || true
 
   if [[ "$PLATFORM_FILTER" == *am62* ]]; then

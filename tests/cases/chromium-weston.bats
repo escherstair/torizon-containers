@@ -41,7 +41,7 @@ setup_file() {
 
   setup_weston
 
-  docker container stop chromium || true
+  docker container kill chromium || true
   docker container rm chromium || true
 
   if [[ "$PLATFORM_FILTER" == *am62* ]]; then

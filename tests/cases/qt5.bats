@@ -29,7 +29,7 @@ DOCKER_RUN_UPSTREAM="docker container run -d -it --net=host --name=qt5-wayland-e
 
 setup_file() {
 
-  docker container stop qt5-wayland-examples || true
+  docker container kill qt5-wayland-examples || true
   docker container rm qt5-wayland-examples || true
 
   if [[ "$PLATFORM_FILTER" == *am62* ]]; then
