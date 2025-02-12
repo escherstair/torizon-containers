@@ -5,9 +5,9 @@ load ./kernel-helper.sh
 load ./general-helper.sh
 
 DOCKER_RUN_AM62="docker container run -d -it \
-            --name=graphics-tests -v /dev:/dev --device-cgroup-rule='c 4:* rmw' \
-            --device-cgroup-rule='c 13:* rmw' --device-cgroup-rule='c 199:* rmw' \
-            --device-cgroup-rule='c 226:* rmw' \
+            --name=graphics-tests -v /dev:/dev -v /tmp:/tmp \
+            --device-cgroup-rule='c 4:* rmw' --device-cgroup-rule='c 13:* rmw' \
+            --device-cgroup-rule='c 199:* rmw' --device-cgroup-rule='c 226:* rmw' \
             $REGISTRY/torizon/graphics-tests-am62:stable-rc"
 
 DOCKER_RUN_IMX8="docker container run -e ACCEPT_FSL_EULA=1 -d -it --privileged \
