@@ -65,10 +65,10 @@ e2e-test-apalis-imx8qm-release:
   variables:
     SOC_UDT: "apalis-imx8qm"
 
-e2e-test-colibri-imx8dx-release:
+e2e-test-colibri-imx8qxp-release:
   extends: .e2e-test-template
   variables:
-    SOC_UDT: "colibri-imx8dx"
+    SOC_UDT: "colibri-imx8qxp"
 
 e2e-test-verdin-imx8mmq-release:
   extends: .e2e-test-template
@@ -200,7 +200,7 @@ aggregate-reports:
     VERDIN_IMX8MMQ_TEST_EXEC_KEY: "TCCP-955"
     APALIS_IMX6Q_TEST_EXEC_KEY: "TCCP-956"
     APALIS_IMX8QM_TEST_EXEC_KEY: "TCCP-957"
-    COLIBRI_IMX8DX_TEST_EXEC_KEY: "TCCP-958"
+    COLIBRI_IMX8QXP_TEST_EXEC_KEY: "TCCP-958"
     COLIBRI_IMX7D_TEST_EXEC_KEY: "TCCP-953"
     COLIBRI_IMX6DL_TEST_EXEC_KEY: "TCCP-959"
     COLIBIR_IMX6ULL_TEST_EXEC_KEY: "TCPP-960"
